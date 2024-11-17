@@ -1,17 +1,22 @@
-import { useState } from 'react'
-import Image from '@/assets/images/page1.png'
-import Card from '@/assets/images/Card.svg'
+// App.js
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Home, IndividualResult, LeaderBoard } from './pages';
+import Layout from '@/components/Layout';  // Import the Layout component
+import '@/assets/styles/index.css';
 
 function App() {
-
   return (
-    <>
-      <div className='flex max-w-[600px] mx-auto justify-center flex-col'>
-        <img src={Image} alt='page1' />
-        <img src={Card} alt='card' />
-      </div>
-    </>
-  )
+    <Router>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/LeaderBoard" element={<LeaderBoard />} />
+          <Route path="/IndividualResult" element={<IndividualResult />} />
+        </Routes>
+      </Layout>
+    </Router>
+  );
 }
 
-export default App
+export default App;
