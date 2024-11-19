@@ -6,13 +6,13 @@ const Layout = ({ children }) => {
     return (
         <div className="layout">
             <header className="p-2 z-40">
-                <nav>
+                {/* <nav>
                     <ul className='flex justify-around font-semibold'>
                         <li><Link to="/">Home</Link></li>
                         <li><Link to="/LeaderBoard">LeaderBoard</Link></li>
                         <li><Link to="/IndividualResult">Individual Result</Link></li>
                     </ul>
-                </nav>
+                </nav> */}
             </header>
            
             <main style={{ height: 'calc(100vh - 80px)' }} className=''>
