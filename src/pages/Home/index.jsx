@@ -1,15 +1,15 @@
 import React from 'react'
 import Button from '@/components/Ui/Button'
 import ArrowBtn from '@/components/Ui/ArrowBtn'
-import { Star, ArtifyTxt } from '@/assets/icons'
+import { Star, ArtifyTxt, VstarRB, VstarLB } from '@/assets/icons'
 import useNavigateHook from '@/composables'
 import '@/assets/styles/home.css'
 
 function index() {
     const { handleNavigate } = useNavigateHook();
-    
+
     return (
-        <div className='flex flex-col justify-between h-full'>
+        <div className='flex flex-col justify-between h-full '>
             {/* marquee banner */}
             <div className='bg-black h-16 my-2 w-full overflow-hidden'>
                 <div className='marquee flex justify-start h-full gap-4'>
@@ -42,7 +42,7 @@ function index() {
             </section>
 
             {/* buttons */}
-            <div className='flex gap-4 items-center justify-center w-full'>
+            <div className='flex gap-4 items-center justify-center w-full pb-10'>
                 <Button onClick={() => handleNavigate('LeaderBoard')}>
                     <span className='flex items-center justify-center flex-1 font-semibold'>Leader Board</span>
                     <div className='flex justify-end items-center'> <ArrowBtn direction='right' /></div>
@@ -52,7 +52,10 @@ function index() {
                     <div className='flex justify-end items-center'> <ArrowBtn direction='right' /></div>
                 </Button>
             </div>
-
+            <div className='flex justify-around gap-4 absolute bottom-0 w-full'>
+                <img src={VstarLB} alt='star' className='h-16 w-16' />
+                <img src={VstarRB} alt='star' className='h-16 w-16' />
+            </div>
         </div>
     )
 }
