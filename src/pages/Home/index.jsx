@@ -16,6 +16,7 @@ function index() {
 
     return (
         <motion.div
+            className='h-screen'
             initial={{ x: "", opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: "-100vw", opacity: 0 }}
@@ -45,7 +46,7 @@ function index() {
                 </div>
 
                 {/* card show */}
-                <div className='relative h-[380px] z-10'>
+                <div className='relative h-[350px] z-10'>
                     <motion.div
                         className='absolute -right-12 top-10 rotate-[25deg] z-10'
                         initial={{ opacity: 0, y: -50, rotate: 15 }}
@@ -71,12 +72,12 @@ function index() {
 
                 {/* content */}
                 <motion.div
-                    className='relative w-fit h-fit z-30 bg-white rounded-[20px] mx-auto'
+                    className='relative w-fit h-fit z-30  rounded-[20px] mx-auto -mt-8 pb-10'
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.8, ease: 'easeInOut' }}
                 >
-                    <section className='flex flex-col items-center justify-center gap-2 text-center w-full p-2 pb-36 z-10' >
+                    <section className='flex flex-col items-center justify-center gap-2 text-center w-full p-2  z-10' >
                         <img src={ArtifyTxt} alt='Artify' className='h-28w-28 mx-auto' />
                         <h2 className='text-xl font-normal'>Uniting Artists, Visionaries, and Dreamers</h2>
                         <p className='text-sm px-2 max-w-[500px] leading-4 mt-4'><b>Artify</b> is where passion and talent collide, showcasing the diverse
@@ -89,7 +90,7 @@ function index() {
                 </div>
 
                 <motion.div
-                    className='flex gap-4 items-center justify-center w-full pb-20 flex-wrap gap-y-10 z-10'
+                    className='flex gap-4 items-center justify-center w-full pb-10 flex-wrap gap-y-10 z-10'
                     initial="hidden"
                     animate="visible"
                     variants={{
@@ -159,23 +160,20 @@ function index() {
 
                 {/* blur color shadows */}
                 <div className="absolute w-full flex flex-col justify-between h-[120vh] z-0 overflow-hidden top-0 bottom-0">
-                    <div className='flex flex-col justify-between'>
+                    
 
                         <div className='relative'>
                             <div className='rounded-full bg-[#5F01D191] w-28 h-24 top-36 blur-[45px] absolute -left-10' />
                         </div>
                         <div className='relative'>
-                            <div className='rounded-full bg-[#FE346E91] w-28 h-24 top-[350px] blur-[45px]  absolute -right-10' />
+                            <div className='rounded-full bg-[#FE346E91] w-28 h-24  blur-[45px]  absolute -right-10' />
                         </div>
-                    </div>
-                    <div>
                         <div className='relative'>
-                            <div className='rounded-full bg-[#1089FE91] w-28 h-24 blur-[45px] bottom-24 absolute -left-10' />
+                            <div className='rounded-full bg-[#1089FE91] w-28 h-24 blur-[45px] -bottom-20 absolute -left-10' />
                         </div>
                         <div className='relative '>
-                            <div className='rounded-full bg-[#20BBAD91] w-28 h-24 blur-[45px] bottom-0 absolute -right-10' />
+                            <div className='rounded-full bg-[#20BBAD91] w-28 h-24 blur-[45px] bottom-28 absolute -right-10' />
                         </div>
-                    </div>
                 </div>
             </div>
         </motion.div>
