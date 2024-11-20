@@ -30,7 +30,7 @@ function Index() {
     <motion.div
       initial={{ x: "100vw", opacity: 0 }}
       animate={{ x: 0, opacity: 1 }} 
-      exit={{ x: "-100vw", opacity: 0 }} 
+      exit={{ x: "-100vw", opacity: 0 }}  
       transition={{ duration: 0.5, ease: "easeInOut" }}
     >
       <div className='relative z-20 pt-8 min-h-screen px-2'>
@@ -73,7 +73,7 @@ function Index() {
             <div className='rounded-full bg-[#FE346E91] w-24 h-24 blur-[50px] absolute -right-10' />
           </div>
           <div className='relative'>
-            <div className='rounded-full bg-[#1089FE91] w-24 h-24 -bottom-60 blur-[50px] absolute -left-10' />
+            <div className='rounded-full bg-[#1089FE91] w-24 h-24 -bottom-40 blur-[50px] absolute -left-10' />
           </div>
           <div className='relative'>
             <div className='rounded-full bg-[#20BBAD91] w-24 h-24 bottom-0 blur-[50px] absolute -right-10' />

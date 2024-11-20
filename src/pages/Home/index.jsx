@@ -16,8 +16,8 @@ function index() {
 
     return (
         <motion.div
-            initial={{ x: "", opacity: 0 }} 
-            animate={{ x: 0, opacity: 1 }} 
+            initial={{ x: "", opacity: 0 }}
+            animate={{ x: 0, opacity: 1 }}
             exit={{ x: "-100vw", opacity: 0 }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
         >
@@ -48,7 +48,7 @@ function index() {
                 <div className='relative h-[380px] z-10'>
                     <motion.div
                         className='absolute -right-12 top-10 rotate-[25deg] z-10'
-                        initial={{ opacity: 0, y: -50, rotate: 15 }} 
+                        initial={{ opacity: 0, y: -50, rotate: 15 }}
                         animate={{ opacity: 1, y: 0, rotate: 25 }}
                         transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
                     >
@@ -61,7 +61,7 @@ function index() {
                     <motion.div
                         className='absolute -left-12 bottom-10 -rotate-[24deg] z-10'
                         initial={{ opacity: 0, y: 50, rotate: -15 }}
-                        animate={{ opacity: 1, y: 0, rotate: -24 }} 
+                        animate={{ opacity: 1, y: 0, rotate: -24 }}
                         transition={{ duration: 0.8, delay: 0.6, ease: 'easeOut' }}
                     >
                         <GroupCard data={Card1} />
@@ -71,7 +71,7 @@ function index() {
 
                 {/* content */}
                 <motion.div
-                    className='relative w-fit h-fit z-30 bg-white rounded-[20px]'
+                    className='relative w-fit h-fit z-30 bg-white rounded-[20px] mx-auto'
                     initial={{ opacity: 0, scale: 0.8 }}
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ duration: 0.8, ease: 'easeInOut' }}
