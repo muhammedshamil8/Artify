@@ -1,14 +1,18 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Button from '@/components/Ui/Button'
 import ArrowBtn from '@/components/Ui/ArrowBtn'
 import useNavigateHook from '@/composables'
 import Card from './components/Card'
 import { motion } from "motion/react"
+import { Loader } from 'lucide-react'
 
 function Index() {
   const { handleNavigate } = useNavigateHook();
+  const [cardsData, setCardsData] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
-  const data = [
+  const dummyData = [
     {
       name: 'Arts',
       points: 100
@@ -25,12 +29,27 @@ function Index() {
       name: 'Bvoc',
       points: 70
     }
-  ]
+  ];
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        setTimeout(() => {
+          setCardsData(dummyData);
+          setLoading(false);
+        }, 1000);
+      } catch (error) {
+        setError('Failed to fetch data');
+        setLoading(false);
+      }
+    };
+    fetchData();
+  }, []);
   return (
     <motion.div
       initial={{ x: "100vw", opacity: 0 }}
-      animate={{ x: 0, opacity: 1 }} 
-      exit={{ x: "-100vw", opacity: 0 }}  
+      animate={{ x: 0, opacity: 1 }}
+      exit={{ x: "-100vw", opacity: 0 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
     >
       <div className='relative z-20 pt-8 min-h-screen px-2'>
@@ -46,8 +65,9 @@ function Index() {
         </div>
 
         <div className='flex flex-col items-center justify-center w-full gap-8 p-2 py-10 z-40'>
+          {loading && <p className='flex items-center justify-center mx-auto'><Loader className="animate-spin" />&nbsp; Loading...</p>}
           {
-            data.map((item, index) => (
+            cardsData.map((item, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 50 }}
