@@ -11,3 +11,16 @@
         transform: translateX(-50%); 
     }
 }
+
+.box-shadow-bottom {
+    box-shadow: -7px 7px 0 #fff;
+  }
+  .box-shadow-bottom2 {
+    box-shadow: 7px 7px 0 #fff;
+  }
+  .box-shadow-top {
+    box-shadow: -5px -2px 0 #fff;
+  }
+  .box-shadow-top2 {
+    box-shadow: 5px -2px 0 #fff;
+  }
