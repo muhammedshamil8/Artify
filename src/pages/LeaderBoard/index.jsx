@@ -7,89 +7,62 @@ import IndividualCard from './components/IndividualCard'
 import { motion } from "motion/react"
 import { Loader, Share2 } from 'lucide-react'
 import ShareNowButton from './components/ShareButton'
-
+import {
+  L_bar_element,
+  L_star_element
+} from '@/assets/icons'
 function Index() {
   const { handleNavigate } = useNavigateHook();
   const [teamData, setTeamData] = useState([]);
   const [individualData, setIndividualData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-
-  const dummyData = [
-    {
-      name: 'Arts',
-      points: 100
-    },
-    {
-      name: 'Science',
-      points: 90
-    },
-    {
-      name: 'Commerce',
-      points: 80
-    },
-    {
-      name: 'Bvoc',
-      points: 70
-    }
-  ];
-
-  const dummyData2 = [
-    {
-      name: 'John Doe',
-      points: 100
-    },
-    {
-      name: 'James ',
-      points: 90
-    },
-    {
-      name: 'Jane Doe',
-      points: 80
-    },
-    {
-      name: 'Jenny Doe',
-      points: 70
-    },
-    {
-      name: 'shukooooooorr havu',
-      points: 65
-    },
-    {
-      name: 'copilot',
-      points: 60
-    },
-    {
-      name: 'pilot',
-      points: 55
-    },
-    {
-      name: 'captain',
-      points: 50
-    },
-    {
-      name: 'co-captain',
-      points: 45
-    },
-    {
-      name: 'first officer',
-      points: 40
-    }
-  ];
+  const ApiUrl = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
     const fetchData = async () => {
+      setLoading(true);
       try {
-        setTimeout(() => {
-          setTeamData(dummyData);
-          setIndividualData(dummyData2);
-          setLoading(false);
-        }, 1000);
+        const response = await fetch(`${ApiUrl}/users/results/leaderboard`, {
+          method: 'GET',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+        });
+        const data = await response.json();
+
+        // Format the data for individual top scorers
+        const individualData = data.data.topScorers.map((scorer) => ({
+          name: scorer.name,
+          gender: scorer.gender,
+          number: scorer.number,
+          department: scorer.department,
+          year_of_study: scorer.year_of_study,
+          total_score: scorer.total_score,
+        }));
+
+        // Format the data for department scores
+        const departmentData = data.data.departmentScores.map((dept) => ({
+          department: dept._id,
+          total_score: dept.total_score,
+        }));
+
+        // Format the data for categorized scores
+        const categorizedData = data.data.categorizedScores.map((category) => ({
+          department: category.department,
+          total_score: category.total_score,
+        }));
+
+        // Set the state with the formatted data
+        setIndividualData(individualData);
+        setTeamData(categorizedData);
+        setLoading(false);
       } catch (error) {
-        setError('Failed to fetch data');
+        console.error("Error fetching leaderboard data:", error);
         setLoading(false);
       }
     };
+
     fetchData();
   }, []);
 
@@ -135,7 +108,11 @@ function Index() {
       animate={{ x: 0, opacity: 1 }}
       exit={{ x: "-100vw", opacity: 0 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
-    >
+      >
+      <img src={L_bar_element} alt='bar' className='absolute top-44 left-0' />
+      <div className='absolute bottom-0 left-3'>
+        <img src={L_star_element} alt='bar' className='' />
+      </div>
       <div className='flex w-full justify-center  gap-4 z-30'>
         <div className='flex justify-start items-end p-3 z-20'>
           <ArrowBtn className="z-20" direction='left' onClick={() => handleNavigate('/')} />
@@ -151,7 +128,7 @@ function Index() {
         <ShareNowButton />
       </div>
       <div className='flex flex-col items-center justify-center w-full gap-8 p-2 pb-6 z-40'>
-        {loading && <p className='flex items-center justify-center mx-auto'><Loader className="animate-spin" />&nbsp; Loading...</p>}
+        {loading && <p className='flex items-center justify-center mx-auto py-10 my-20'><Loader className="animate-spin" />&nbsp; Loading...</p>}
         {
           teamData.map((item, index) => (
             <motion.div
@@ -174,7 +151,7 @@ function Index() {
       <h1 className='text-2xl font-semibold mx-auto py-6'>Individual Rank</h1>
       {/* individual result */}
       <div className='flex flex-col items-center justify-center w-full gap-8 p-2 pb-10 z-40'>
-        {loading && <p className='flex items-center justify-center mx-auto'><Loader className="animate-spin" />&nbsp; Loading...</p>}
+        {loading && <p className='flex items-center justify-center mx-auto py-10 my-20'><Loader className="animate-spin" />&nbsp; Loading...</p>}
         {
           individualData.map((item, index) => (
             <motion.div
@@ -206,6 +183,8 @@ function Index() {
           </div>
         ))}
       </div>
+
+
 
     </motion.div>
   )
