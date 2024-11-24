@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import Button from '@/components/Ui/Button'
 import ArrowBtn from '@/components/Ui/ArrowBtn'
-import { Star, ArtifyTxt, VstarRB, VstarLB, VstarT, VstarLT, VstarRT } from '@/assets/icons'
+import { Star, ArtifyTxt, VstarRB, VstarLB, VstarT, VstarLT, VstarRT , ArtifyLogo } from '@/assets/icons'
 import useNavigateHook from '@/composables'
 import '@/assets/styles/home.css'
 import ResultCard from './components/ResultCard'
@@ -17,9 +17,13 @@ function index() {
     const [error, setError] = useState(null);
 
 
-    const enableFullScreen = () => {
-        if (document.documentElement.requestFullscreen) {
+    const toggleFullScreen = () => {
+        if (!document.fullscreenElement) {
             document.documentElement.requestFullscreen();
+        } else {
+            if (document.exitFullscreen) {
+                document.exitFullscreen();
+            }
         }
     };
 
@@ -92,10 +96,10 @@ function index() {
         >
             <div className='w-full flex items-center justify-center'>
                 <button
-                    onClick={enableFullScreen}
+                    onClick={toggleFullScreen}
                     className="mt-2 px-4 py-2 bg-black text-white rounded "
                 >
-                    Enter Fullscreen
+                    Toggle Fullscreen
                 </button>
             </div>
             <div className='flex flex-col justify-between h-full relative '>
@@ -105,6 +109,7 @@ function index() {
                         {[...Array(10)].map((_, i) => (
                             <div key={i} className='flex items-center justify-center gap-3 text-white h-full mx-6'>
                                 <img src={Star} alt='star' className='h-6 w-6' />
+                                <img src={ArtifyLogo} alt='star' className='h-10 w-6' />
                                 <span className='whitespace-nowrap'>{`Welcome to Artify`}</span>
                             </div>
                         ))}
@@ -112,6 +117,7 @@ function index() {
                         {[...Array(10)].map((_, i) => (
                             <div key={i + 20} className='flex items-center justify-center gap-3 text-white h-full mx-6'>
                                 <img src={Star} alt='star' className='h-6 w-6' />
+                                <img src={ArtifyLogo} alt='star' className='h-10 w-6' />
                                 <span className='whitespace-nowrap'>{`Welcome to Artify`}</span>
                             </div>
                         ))}
@@ -124,7 +130,7 @@ function index() {
                 <div className='flex flex-col items-end justify-center h-full '>
 
                     {/* card show */}
-                    <div className='absolute z-10 top-40 w-full h-full'>
+                    <div className='absolute z-10 top-28 w-full h-full'>
                         <div className='relative h-[350px] z-10'>
                             <motion.div
                                 className='absolute -right-12 top-10 rotate-[25deg] z-10'
@@ -152,9 +158,9 @@ function index() {
 
 
                     {/* content */}
-                    <div className='flex items-end basis-[80%] sm:items-center mx-auto sm:basis-[60%]'>
+                    <div className='flex items-end basis-[60%] sm:items-center mx-auto sm:basis-[60%]'>
                         <motion.div
-                            className='relative w-fit  z-30  rounded-[20px] mx-auto  pb-10  h-fit backdrop-blur-[1px]'
+                            className='relative w-fit  z-30  rounded-[20px] mx-auto  pb-14  h-fit backdrop-blur-[1px]'
                             initial={{ opacity: 0, scale: 0.8 }}
                             animate={{ opacity: 1, scale: 1 }}
                             transition={{ duration: 0.8, ease: 'easeInOut' }}
@@ -220,7 +226,7 @@ function index() {
                         >
                             <Button onClick={() => handleNavigate('IndividualResult')}>
                                 <span className='flex items-center justify-center flex-1 font-semibold'>
-                                    Individual Result
+                                     Result
                                 </span>
                                 <motion.div
                                     className='flex justify-end items-center'
@@ -236,7 +242,7 @@ function index() {
 
                 </div>
                 {/* vector elements */}
-                <div className='flex justify-around gap-4 absolute bottom-10 w-full'>
+                <div className='flex justify-around gap-4 absolute bottom-[35px] w-full'>
                     <img src={VstarLB} alt='star' className='h-16 w-16' />
                     <img src={VstarRB} alt='star' className='h-16 w-16' />
                 </div>
@@ -253,10 +259,10 @@ function index() {
                         <div className='rounded-full bg-[#FE346E91] w-28 h-24  blur-[45px]  absolute -right-10' />
                     </div>
                     <div className='relative'>
-                        <div className='rounded-full bg-[#1089FE91] w-28 h-24 blur-[45px] -bottom-20 absolute -left-10' />
+                        <div className='rounded-full bg-[#1089FE91] w-28 h-24 blur-[45px] -bottom-0 absolute -left-10' />
                     </div>
                     <div className='relative '>
-                        <div className='rounded-full bg-[#20BBAD91] w-28 h-24 blur-[45px] bottom-28 absolute -right-10' />
+                        <div className='rounded-full bg-[#20BBAD91] w-28 h-24 blur-[45px] bottom-52 absolute -right-10' />
                     </div>
                 </div>
             </div>
