@@ -17,7 +17,8 @@ import wideStar from './wide.svg';
 import wideStarBig from './wideBig.svg';
 import ResultTxt from './Result.svg';
 import badge_white from './badge_white.svg';
-
+import L_bar_element from './leaderb_bar_element.svg';
+import L_star_element from './leaderb_star_element.svg';
 
 
 export {
@@ -39,5 +40,7 @@ export {
     wideStar,
     wideStarBig,
     ResultTxt,
-    badge_white
+    badge_white,
+    L_bar_element,
+    L_star_element
 };

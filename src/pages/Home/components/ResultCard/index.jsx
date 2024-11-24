@@ -12,12 +12,12 @@ function index({data}) {
             </div>
 
             <div className='flex items-center justify-center flex-col w-full absolute bottom-8 gap-2'>
-                <div className='bg-gray-200 w-14 h-14 rounded-full mx-auto'></div>
+            <div className='text-[40px] font-black'>1</div>
                 <div className='flex flex-col text-center'>
                     <h1 className='font-semibold capitalize text-[12px]'>{data.name}</h1>
                     <p className='text-[10px]'>{data.department}</p>
                 </div>
-                <div className='border border-black h-[30px] max-w-24 w-full flex items-center justify-center font-semibold text-sm'>{data.points}<sub>pts</sub></div>
+                <div className='border border-black h-[30px] max-w-24 w-full flex items-center justify-center font-semibold text-sm'>{data.total_score}<sub>pts</sub></div>
             </div>
         </div>
     )
