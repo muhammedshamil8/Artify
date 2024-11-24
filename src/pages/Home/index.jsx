@@ -31,47 +31,50 @@ function index() {
     //     enableFullScreen()
     // }, [])
 
+    const ApiUrl = import.meta.env.VITE_BASE_URL;
 
     useEffect(() => {
         const fetchData = async () => {
-            try {
-                // const [response1, response2] = await Promise.all([
-                //     fetch('https://api1.com/data'), // Replace with actual API URL for Card1
-                //     fetch('https://api2.com/data')  // Replace with actual API URL for Card2
-                // ]);
-
-                // const data1 = await response1.json();
-                // const data2 = await response2.json();
-
-                // setCard1({
-                //     name: data1.name,
-                //     points: data1.points,
-                // });
-                const dummyCard1 = {
-                    name: 'Arts',
-                    points: 200
-                };
-
-                const dummyCard2 = {
-                    name: 'Muhammed Shamil',
-                    department: 'BSc',
-                    points: 100
-                };
-
-                // Set the state with the dummy data
-                setCard1(dummyCard1);
-                setCard2(dummyCard2);
-
-            } catch (error) {
-                setError('Failed to fetch data');
-                setLoading(false);
-            } finally {
-                setLoading(false);
-            }
+          setLoading(true);
+          try {
+            const response = await fetch(`${ApiUrl}/users/results/leaderboard`, {
+              method: 'GET',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+            });
+            const data = await response.json();
+      
+            // Get the top-scoring individual
+            const topIndividual = data.data.topScorers.reduce((max, scorer) =>
+              scorer.total_score > (max.total_score || 0) ? scorer : max, {});
+      
+            // Get the category with the highest score
+            const topCategory = data.data.categorizedScores.reduce((max, category) =>
+              category.total_score > (max.total_score || 0) ? category : max, {});
+      
+            // Set the state with only the highest scorers
+            setCard1({
+              name: topIndividual.name,
+              total_score: topIndividual.total_score,
+              department: topIndividual.department,
+            });
+      
+            setCard2({
+              department: topCategory.department,
+              total_score: topCategory.total_score,
+            });
+      
+            setLoading(false);
+          } catch (error) {
+            console.error("Error fetching leaderboard data:", error);
+            setLoading(false);
+          }
         };
-
+      
         fetchData();
-    }, []);
+      }, []);
+      
 
     const loadingDummyCard1Data = {
         name: 'loading...',
@@ -88,21 +91,21 @@ function index() {
 
     return (
         <motion.div
-            className='h-screen overflow-hidden'
+            className='h-screen overflow-hidden select-none'
             initial={{ x: "", opacity: 0 }}
             animate={{ x: 0, opacity: 1 }}
             exit={{ x: "-100vw", opacity: 0 }}
             transition={{ duration: 0.5, ease: "easeInOut" }}
         >
             <div className='w-full flex items-center justify-center'>
-                <button
+                {/* <button
                     onClick={toggleFullScreen}
                     className="mt-2 px-4 py-2 bg-black text-white rounded "
                 >
                     Toggle Fullscreen
-                </button>
+                </button> */}
             </div>
-            <div className='flex flex-col justify-between h-full relative '>
+            <div className='flex flex-col justify-between h-full relative mt-8'>
                 {/* marquee banner */}
                 <div className='bg-black h-16 my-2  w-full overflow-hidden z-20'>
                     <div className='marquee flex justify-start h-full gap-4'>
