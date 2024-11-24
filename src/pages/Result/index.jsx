@@ -16,80 +16,83 @@ function index() {
   const [programs, setPrograms] = useState([]);
   const [filteredPrograms, setFilteredPrograms] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [loadingPoster, setLoadingPoster] = useState(true);
   const [selectedProgram, setSelectedProgram] = useState(null);
+  const ApiUrl = import.meta.env.VITE_BASE_URL;
 
-  useEffect(() => {
-    const poster = document.getElementById('resultPosterId');
-
-    // Use html2canvas to render the poster content into a canvas
-    html2canvas(poster).then((canvas) => {
-      const imageUrl = canvas.toDataURL('image/png'); // Create image URL from canvas
-      setImageUrl(imageUrl);
-    });
-  }, []);
   useEffect(() => {
     setLoading(true);
     try {
-      const fetchDummyPrograms = async () => {
-        const dummyPrograms = [
-          { name: 'Song', id: '123', poster: Poster },
-          { name: 'Dance', id: '124', poster: Poster },
-          { name: 'Drama', id: '125', poster: Poster },
-          { name: 'Music', id: '126', poster: Poster },
-          { name: 'Art', id: '127', poster: Poster },
-          { name: 'Poetry', id: '128', poster: Poster },
-          { name: 'Painting', id: '129', poster: Poster },
-          { name: 'Sketching', id: '130', poster: Poster },
-        ];
-        setFilteredPrograms(dummyPrograms);
-        setPrograms(dummyPrograms);
-        setSelectedProgram(dummyPrograms[0]);
-      };
 
-      fetchDummyPrograms();
+      const fetchPrograms = async () => {
+        const response = await fetch(`${ApiUrl}/users/events`, {
+          method: 'GET',
+        });
+        console.log(response);
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch program data');
+        }
+
+        const { data } = await response.json();
+
+        // Format the response data
+        const formattedData = data.map((program) => ({
+          label: program.name,
+          value: program._id,
+          stage: program.event_type.is_onstage ? 'On Stage' : 'Off Stage',
+        }));
+
+        await handleSelectProgram(formattedData[0]);
+        // console.log(formattedData);
+        setPrograms(formattedData);
+        setLoading(false);
+      }
+
+      fetchPrograms();
     } catch (error) {
       console.log('Failed to fetch data');
-      setLoading(false);
-    } finally {
       setLoading(false);
     }
   }, []);
 
   const handleDownload = () => {
-    // Find the poster div (replace "resultPosterId" with the actual ID of your poster)
     const poster = document.getElementById('resultPosterId');
 
-    // Use html2canvas to render the poster content into a canvas
     html2canvas(poster).then((canvas) => {
       const imageUrl = canvas.toDataURL('image/png'); // Create image URL from canvas
       setImageUrl(imageUrl);
       const link = document.createElement('a'); // Create a temporary link element
       link.href = imageUrl;
-      link.download = 'poster.png'; // Set download filename
-      link.click(); // Trigger the download
+      if (selectedProgram) {
+        link.download = `${selectedProgram.programName}-result.png`; // Set the download attribute to the program name
+      } else {
+        link.download = 'poster.png';
+      }
+      link.click();
     });
   };
 
 
   const handleShare = async () => {
-    const poster = document.getElementById('resultPosterId'); 
-  
+    const poster = document.getElementById('resultPosterId');
+
     // Capture the content of the element as a canvas
     html2canvas(poster).then((canvas) => {
       // Convert the canvas to a Blob
       canvas.toBlob(async (blob) => {
         if (!blob) return;
-  
+
         // Create a File object from the Blob
         const file = new File([blob], 'poster.png', { type: 'image/png' });
-  
+
         // Check if the Web Share API supports file sharing
         if (navigator.share) {
           try {
             // Share the image as a file
             await navigator.share({
               title: 'Poster Share',
-              text: 'Check out this awesome poster!',
+              text: `Check out this awesome poster! 🎉 come and check other results ${'https://artify-beryl.vercel.app/'}`,
               files: [file], // Pass the image file
             });
             console.log('Shared successfully!');
@@ -98,12 +101,11 @@ function index() {
           }
         } else {
           console.warn('Web Share API not supported or file sharing not supported');
+          alert('Sorry, file sharing is not supported on your device please download the image and share it manually');
         }
       });
     });
   };
-
-
 
 
   useEffect(() => {
@@ -115,6 +117,44 @@ function index() {
     }
 
   }, [search, programs]);
+
+
+  const handleSelectProgram = async (program) => {
+    setLoadingPoster(true);
+    try {
+      const response = await fetch(`${ApiUrl}/users/result/event/${program.value}`, {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch program data');
+      }
+
+      const { data } = await response.json();
+
+      const formattedData = data.map((program) => ({
+        programName: program.name,
+        stageStatus: program.is_onstage ? 'on_stage' : 'off_stage',
+        winners: program.winningRegistrations.map((winner) => ({
+          position: winner.position,
+          participants: winner.eventRegistration.participants.user.map((participant) => ({
+            name: participant.name,
+            department: participant.department,
+            year: participant.year_of_study,
+          })),
+        })),
+      }));
+      // console.log(formattedData);
+      setSelectedProgram(formattedData[0]);
+      setLoadingPoster(false);
+    } catch (error) {
+      console.error('Failed to select program', error);
+      setLoadingPoster(false);
+    }
+  };
 
   return (
     <motion.div
@@ -155,51 +195,65 @@ function index() {
         </div>
 
         {/* poster */}
-        <motion.div
-          key={index}
-          initial={{ opacity: 0, y: 10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{
-            delay: 0.3,
-            duration: 0.6,
-            ease: 'easeInOut'
-          }}
-        >
-          <div className='border rounded-lg border-black min-h-[360px] mx-auto min-w-[300px] max-w-[500px] overflow-hidden flex flex-col shadow-sm '>
-            <div className='flex-1 flex-grow  basis-[85%]' id="resultPosterId" >
-              <ResultPoster />
-            </div>
-            <div className='grid grid-cols-3 h-[20px] basis-[15%] border-t border-black overflow-hidden'>
-
-              <div className='col-span-2 flex  items-center justify-center gap-3  relative'>
-                <RWebShare
-                  data={{
-                    text: "Like humans, flamingos make friends for life",
-                    url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBnuRaF10nJF2Rj1UVdJNK8_aRjLc4R0JhlQ&s',
-                    title: "Flamingos",
-                  }}
-                  onClick={() => console.log('share clicked')}
-                >
-                  <button className='flex  items-center justify-center gap-3'>    <span ><Share2 /></span><p className='font-semibold'>Share Now</p></button>
-                </RWebShare>
-
-                <img src={PosterStar} alt='star' className='absolute left-3 -top-5 z-50 stroke-1 stroke-gray-200' />
-                <img src={PosterStar} alt='star' className='absolute right-2 -bottom-6 z-50 stroke-1 stroke-gray-200' />
-
-              </div>
-              <div className='flex items-center justify-center border-l border-black relative py-2'>
-                <span onClick={handleDownload} className='cursor-pointer'>
-                  <Download className='stroke-2' />
-                </span>
-                <img src={PosterStar} alt='star' className='absolute right-0 -top-6 z-50 stroke-1 stroke-gray-200' />
-              </div>
-            </div>
+        {loadingPoster ? (
+          <div>
+            <p className='flex items-center justify-center mx-auto text-black'><Loader className="animate-spin" />&nbsp; Loading...</p>
           </div>
-        </motion.div>
+        ) : (
+          selectedProgram ? (
+            <motion.div
+              key={index}
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{
+                delay: 0.3,
+                duration: 0.6,
+                ease: 'easeInOut'
+              }}
+            >
+              <div className='border rounded-lg border-black min-h-[360px] mx-auto min-w-[300px] max-w-[400px] overflow-hidden flex flex-col shadow-sm '>
+                <div className='flex-1 flex-grow  basis-[85%]' id="resultPosterId" >
+                  <ResultPoster result={selectedProgram} />
+                </div>
+                <div className='grid grid-cols-3 h-[20px] basis-[15%] border-t border-black overflow-hidden'>
 
-        <Button className="mx-auto bg-white mt-4" onClick={() => handleShare()}>
+                  <div className='col-span-2 flex  items-center justify-center gap-3  relative'>
+                    {/* <RWebShare
+                      data={{
+                        text: "Like humans, flamingos make friends for life",
+                        url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBnuRaF10nJF2Rj1UVdJNK8_aRjLc4R0JhlQ&s',
+                        title: "Flamingos",
+                      }}
+                      onClick={() => console.log('share clicked')}
+                    > */}
+                    <button className='flex  items-center justify-center gap-3' onClick={() => handleShare()}>
+                      <span ><Share2 /></span><p className='font-semibold'>Share Now</p>
+                    </button>
+                    {/* </RWebShare> */}
+
+                    <img src={PosterStar} alt='star' className='absolute left-3 -top-5 z-50 stroke-1 stroke-gray-200' />
+                    <img src={PosterStar} alt='star' className='absolute right-2 -bottom-6 z-50 stroke-1 stroke-gray-200' />
+
+                  </div>
+                  <div className='flex items-center justify-center border-l border-black relative py-2'>
+                    <span onClick={handleDownload} className='cursor-pointer'>
+                      <Download className='stroke-2' />
+                    </span>
+                    <img src={PosterStar} alt='star' className='absolute right-0 -top-6 z-50 stroke-1 stroke-gray-200' />
+                  </div>
+                </div>
+              </div>
+            </motion.div>
+          ) : (
+            <div>
+              <p className='flex items-center justify-center mx-auto text-black'>No result to display</p>
+            </div>
+          )
+        )}
+
+        {/* <Button className="mx-auto bg-white mt-4" onClick={() => handleShare()}>
           <span className='text-center mx-auto font-semibold py-2'> Share Poster</span>
-        </Button>
+        </Button> */}
 
       </div>
 
@@ -223,10 +277,10 @@ function index() {
                   ease: 'easeInOut'
                 }}
 
-                onClick={() => setSelectedProgram(program)}
+                onClick={() => handleSelectProgram(program)}
                 className='flex items-center justify-between gap-4 py-1.5 px-8 md:px-10 border border-[#2e2d2d] bg-white rounded-md w-fit cursor-pointer transition-all ease-in-out duration-300 hover:bg-gray-200 hover:-translate-y-2 hover:shadow-xl hover:z-10'
               >
-                <p className='font-semibold'>{program.name}</p>
+                <p className='font-semibold'>{program.label}</p>
               </motion.div>
             ))}
           </AnimatePresence>
