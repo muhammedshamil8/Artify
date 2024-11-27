@@ -6,6 +6,7 @@ import Card from './components/Card'
 import IndividualCard from './components/IndividualCard'
 import { motion } from "motion/react"
 import { Loader, Share2 } from 'lucide-react'
+import { Skeleton } from '@/components/Ui/Skelton'
 import ShareNowButton from './components/ShareButton'
 import {
   L_bar_element,
@@ -31,29 +32,35 @@ function Index() {
         });
         const data = await response.json();
 
-        // Format the data for individual top scorers
-        const individualData = data.data.topScorers.map((scorer) => ({
-          name: scorer.name,
-          gender: scorer.gender,
-          number: scorer.number,
-          department: scorer.department,
-          year_of_study: scorer.year_of_study,
-          total_score: scorer.total_score,
-        }));
+        // Format and sort individual data
+        const individualData = data.data.topScorers
+          .map((scorer) => ({
+            name: scorer.name,
+            gender: scorer.gender,
+            number: scorer.number,
+            department: scorer.department,
+            year_of_study: scorer.year_of_study,
+            total_score: scorer.total_score,
+          }))
+          .sort((a, b) => b.total_score - a.total_score);
 
-        // Format the data for department scores
-        const departmentData = data.data.departmentScores.map((dept) => ({
-          department: dept._id,
-          total_score: dept.total_score,
-        }));
+        // Format and sort department scores
+        const departmentData = data.data.departmentScores
+          .map((dept) => ({
+            department: dept._id,
+            total_score: dept.total_score,
+          }))
+          .sort((a, b) => b.total_score - a.total_score);
 
-        // Format the data for categorized scores
-        const categorizedData = data.data.categorizedScores.map((category) => ({
-          department: category.department,
-          total_score: category.total_score,
-        }));
+        // Format and sort categorized scores
+        const categorizedData = data.data.categorizedScores
+          .map((category) => ({
+            department: category.department,
+            total_score: category.total_score,
+          }))
+          .sort((a, b) => b.total_score - a.total_score);
 
-        // Set the state with the formatted data
+        // Set the state with the sorted data
         setIndividualData(individualData);
         setTeamData(categorizedData);
         setLoading(false);
@@ -108,7 +115,7 @@ function Index() {
       animate={{ x: 0, opacity: 1 }}
       exit={{ x: "-100vw", opacity: 0 }}
       transition={{ duration: 0.5, ease: "easeInOut" }}
-      >
+    >
       <img src={L_bar_element} alt='bar' className='absolute top-44 left-0' />
       <div className='absolute bottom-0 left-3'>
         <img src={L_star_element} alt='bar' className='' />
@@ -128,47 +135,54 @@ function Index() {
         <ShareNowButton />
       </div>
       <div className='flex flex-col items-center justify-center w-full gap-8 p-2 pb-6 z-40'>
-        {loading && <p className='flex items-center justify-center mx-auto py-10 my-20'><Loader className="animate-spin" />&nbsp; Loading...</p>}
-        {
-          teamData.map((item, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                delay: index * 0.2,
-                duration: 0.6,
-                ease: 'easeInOut'
-              }}
-              className='w-full max-w-[350px]'
-            >
-              <Card key={index} position={index + 1} data={item} />
-            </motion.div>
+        {loading ? (
+          Array.from({ length: 4 }).map((_, index) => (
+            <Skeleton className="min-h-[110px] mx-auto w-full max-w-[350px]  rounded-xl bg-slate-300" key={index} />
           ))
-        }
+        ) :
+          (
+            teamData.map((item, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  delay: index * 0.2,
+                  duration: 0.6,
+                  ease: 'easeInOut'
+                }}
+                className='w-full max-w-[350px]'
+              >
+                <Card key={index} position={index + 1} data={item} />
+              </motion.div>
+            ))
+          )}
       </div>
 
       <h1 className='text-2xl font-semibold mx-auto py-6'>Individual Rank</h1>
       {/* individual result */}
       <div className='flex flex-col items-center justify-center w-full gap-8 p-2 pb-10 z-40'>
-        {loading && <p className='flex items-center justify-center mx-auto py-10 my-20'><Loader className="animate-spin" />&nbsp; Loading...</p>}
-        {
-          individualData.map((item, index) => (
-            <motion.div
-              className='w-full max-w-[350px]'
-              key={index}
-              initial={{ opacity: 0, y: 50 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{
-                delay: index * 0.2,
-                duration: 0.6,
-                ease: 'easeInOut'
-              }}
-            >
-              <IndividualCard key={index} position={index + 1} data={item} />
-            </motion.div>
-          ))
-        }
+        {loading ? (
+          Array.from({ length: 10 }).map((_, index) => (
+            <Skeleton className="min-h-[80px] mx-auto w-full max-w-[350px]  rounded-xl bg-slate-300" key={index} />
+          ))) :
+          (
+            individualData.map((item, index) => (
+              <motion.div
+                className='w-full max-w-[350px]'
+                key={index}
+                initial={{ opacity: 0, y: 50 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{
+                  delay: index * 0.2,
+                  duration: 0.6,
+                  ease: 'easeInOut'
+                }}
+              >
+                <IndividualCard key={index} position={index + 1} data={item} />
+              </motion.div>
+            ))
+          )}
       </div>
 
 

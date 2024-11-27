@@ -5,7 +5,7 @@ import useNavigateHook from '@/composables'
 import { Search, Share2, Download, Loader } from 'lucide-react'
 import { PosterStar, Poster } from '@/assets/icons'
 import { motion, AnimatePresence } from "motion/react"
-import { RWebShare } from "react-web-share";
+import { Skeleton } from '@/components/Ui/Skelton'
 import ResultPoster from '@/components/Ui/ResultPoster'
 import html2canvas from 'html2canvas';
 
@@ -197,7 +197,9 @@ function index() {
         {/* poster */}
         {loadingPoster ? (
           <div>
-            <p className='flex items-center justify-center mx-auto text-black'><Loader className="animate-spin" />&nbsp; Loading...</p>
+            <p className='flex items-center justify-center mx-auto text-black p-3'>
+              <Skeleton className="min-h-[400px] mx-auto min-w-full max-w-[400px]  rounded-xl bg-slate-300" />
+            </p>
           </div>
         ) : (
           selectedProgram ? (
@@ -218,19 +220,9 @@ function index() {
                 <div className='grid grid-cols-3 h-[20px] basis-[15%] border-t border-black overflow-hidden'>
 
                   <div className='col-span-2 flex  items-center justify-center gap-3  relative'>
-                    {/* <RWebShare
-                      data={{
-                        text: "Like humans, flamingos make friends for life",
-                        url: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSBnuRaF10nJF2Rj1UVdJNK8_aRjLc4R0JhlQ&s',
-                        title: "Flamingos",
-                      }}
-                      onClick={() => console.log('share clicked')}
-                    > */}
                     <button className='flex  items-center justify-center gap-3' onClick={() => handleShare()}>
                       <span ><Share2 /></span><p className='font-semibold'>Share Now</p>
                     </button>
-                    {/* </RWebShare> */}
-
                     <img src={PosterStar} alt='star' className='absolute left-3 -top-5 z-50 stroke-1 stroke-gray-200' />
                     <img src={PosterStar} alt='star' className='absolute right-2 -bottom-6 z-50 stroke-1 stroke-gray-200' />
 
@@ -251,16 +243,14 @@ function index() {
           )
         )}
 
-        {/* <Button className="mx-auto bg-white mt-4" onClick={() => handleShare()}>
-          <span className='text-center mx-auto font-semibold py-2'> Share Poster</span>
-        </Button> */}
-
       </div>
 
 
       <section className='z-20 flex flex-wrap w-full mx-auto gap-4 py-10 items-start justify-center'>
         {loading ? (
-          <p className='flex items-center justify-center mx-auto text-black'><Loader className="animate-spin" />&nbsp; Loading...</p>
+          Array.from({ length: 7 }).map((_, index) => (
+            <Skeleton className="h-10 w-40  px-8  bg-slate-300" key={index} />
+          ))
         ) : (
           <AnimatePresence>
             {filteredPrograms.map((program, index) => (
