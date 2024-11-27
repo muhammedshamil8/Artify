@@ -28,7 +28,7 @@ function index() {
         const response = await fetch(`${ApiUrl}/users/events`, {
           method: 'GET',
         });
-        console.log(response);
+        // console.log(response);
 
         if (!response.ok) {
           throw new Error('Failed to fetch program data');
@@ -51,7 +51,7 @@ function index() {
 
       fetchPrograms();
     } catch (error) {
-      console.log('Failed to fetch data');
+      // console.log('Failed to fetch data');
       setLoading(false);
     }
   }, []);
@@ -95,7 +95,7 @@ function index() {
               text: `Check out this awesome poster! 🎉 come and check other results ${'https://artify-beryl.vercel.app/'}`,
               files: [file], // Pass the image file
             });
-            console.log('Shared successfully!');
+            // console.log('Shared successfully!');
           } catch (err) {
             console.error('Error sharing:', err);
           }
@@ -197,9 +197,9 @@ function index() {
         {/* poster */}
         {loadingPoster ? (
           <div>
-            <p className='flex items-center justify-center mx-auto text-black p-3'>
-              <Skeleton className="min-h-[400px] mx-auto min-w-full max-w-[400px]  rounded-xl bg-slate-300" />
-            </p>
+            <div className='flex items-center justify-center mx-auto text-black p-3'>
+              <Skeleton className="min-h-[400px] mx-auto w-full max-w-[400px]  rounded-xl bg-slate-300" />
+            </div>
           </div>
         ) : (
           selectedProgram ? (
@@ -215,7 +215,9 @@ function index() {
             >
               <div className='border rounded-lg border-black min-h-[360px] mx-auto min-w-[300px] max-w-[400px] overflow-hidden flex flex-col shadow-sm '>
                 <div className='flex-1 flex-grow  basis-[85%]' id="resultPosterId" >
-                  <ResultPoster result={selectedProgram} />
+                  {/* <div className="aspect-[1/1] w-full max-w-[1080px]"> */}
+                    <ResultPoster result={selectedProgram} />
+                  {/* </div> */}
                 </div>
                 <div className='grid grid-cols-3 h-[20px] basis-[15%] border-t border-black overflow-hidden'>
 
