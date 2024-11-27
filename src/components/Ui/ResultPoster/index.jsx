@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import PosterBG from '@/assets/images/poster_bg.svg'
 import {
     ArtifyLogo,
@@ -8,8 +8,14 @@ import {
     wideStar,
     wideStarBig,
     ResultTxt,
-    Star
+    Star,
+    ResultTxt_onstage,
+    wideStarBig_onstage,
+    wideStar_onstage,
+    UnionLogo_onstage,
+    poster_element_onstage,
 } from '@/assets/icons'
+import classNames from 'classnames';
 
 function dynamicTextWithBreak(text) {
     // Split the text by space to separate the words
@@ -33,10 +39,16 @@ function dynamicTextWithBreak(text) {
 
 
 function index({ result }) {
-    console.log(result)
+    console.log(result.stageStatus);
+    const [onStage, setOnStage] = useState(false);
+    useEffect(() => {
+        if (result.stageStatus === 'on_stage') {
+            setOnStage(true);
+        }
+    }, [result.stageStatus]);
 
     // To log details of winners as well:
-    console.log(result?.winners);
+    // console.log(result?.winners);
 
     const data = [
         {
@@ -62,116 +74,151 @@ function index({ result }) {
     }
 
     return (
-        <div className='max-w-[400px] mx-auto border py-4 rounded-md flex flex-col w-full gap-6 overflow-hidden'>
-            {/* banner */}
-            <div className='bg-[#513B25]  h-10 my-2  w-full overflow-hidden z-20'>
-                <div className='marquee flex justify-start h-full gap-4'>
-                    {[...Array(10)].map((_, i) => (
-                        <div key={i} className='flex items-center justify-center gap-3 text-white h-full mx-6'>
-                            <span className='whitespace-nowrap'>{`Welcome to Artify`}</span>
-                            <img src={Star} alt='star' className='h-6 w-6' />
-                            <img src={ArtifyLogo} alt='star' className='h-10 w-6' />
+        <div className="flex justify-center items-center">
+            {/* Wrapper with Aspect Ratio */}
+            <div className="w-full max-w-[1080px] aspect-[4/5] bg-white rounded-md overflow-hidden">
+                {/* Main Poster Content */}
+                <div className='max-w-[400px] mx-auto border py-4 bg-white rounded-md flex flex-col w-full gap-6 overflow-hidden'>
+                    {/* banner */}
+                    <div className={classNames(' h-10 my-2  w-full overflow-hidden z-20',
+                        onStage ? 'bg-[#054379]' : 'bg-[#513B25]'
+                    )}>
+                        <div className='marquee flex justify-start h-full gap-4'>
+                            {[...Array(10)].map((_, i) => (
+                                <div key={i} className='flex items-center justify-center gap-3 text-white h-full mx-6'>
+                                    <span className='whitespace-nowrap'>{`Welcome to Artify`}</span>
+                                    <img src={Star} alt='star' className='h-6 w-6' />
+                                    <img src={ArtifyLogo} alt='star' className='h-10 w-6' />
+                                </div>
+                            ))}
+                            {[...Array(10)].map((_, i) => (
+                                <div key={i} className='flex items-center justify-center gap-3 text-white h-full mx-6'>
+                                    <span className='whitespace-nowrap'>{`Welcome to Artify`}</span>
+                                    <img src={Star} alt='star' className='h-6 w-6' />
+                                    <img src={ArtifyLogo} alt='star' className='h-10 w-6' />
+                                </div>
+                            ))}
                         </div>
-                    ))}
-                    {[...Array(10)].map((_, i) => (
-                        <div key={i} className='flex items-center justify-center gap-3 text-white h-full mx-6'>
-                            <span className='whitespace-nowrap'>{`Welcome to Artify`}</span>
-                            <img src={Star} alt='star' className='h-6 w-6' />
-                            <img src={ArtifyLogo} alt='star' className='h-10 w-6' />
-                        </div>
-                    ))}
-                </div>
-            </div>
+                    </div>
 
-            <div className='flex  items-center justify-center w-fit mx-auto'>
-                <img src={ResultTxt} alt='text' className='mx-auto max-w-[190px]' />
-                <span className='bg-[#D39E2B] rounded-full -ml-8 mt-4 p-0.5 font-bold w-[35px] h-[35px] flex items-center justify-center text-sm text-white'>001</span>
-            </div>
+                    <div className='flex  items-center justify-center w-fit mx-auto'>
+                        {onStage ? (
+                            <img src={ResultTxt_onstage} alt='text' className='mx-auto max-w-[190px]' />
+                        ) : (
+                            <img src={ResultTxt} alt='text' className='mx-auto max-w-[190px]' />
+                        )}
+                        <span className={classNames('rounded-full -ml-8 mt-4 p-0.5 font-bold w-[35px] h-[35px] flex items-center justify-center text-sm text-white',
+                            onStage ? 'bg-[#00B4E1]' : 'bg-[#D39E2B]'
+                        )}>001</span>
+                    </div>
 
-            {/* result  card*/}
-            <div className='px-4 w-full mx-auto'>
-                <div
-                    className={`bg-[#513B25] rounded-xl relative min-w-[300px] max-w-[320px] w-full  mx-auto`}
-                >
-                    <div
-                        className="absolute top-0 left-0 w-full h-full z-0"
-                        style={{
-                            backgroundImage: `url(${PosterBG})`,
-                            backgroundRepeat: 'repeat',
-                            backgroundSize: 'auto 200px', // Increased height for bigger images
-                            backgroundPosition: '0 0',
-                            opacity: 0.1, // Slightly increased opacity for visibility
-                        }}
-                    />
+                    {/* result  card*/}
+                    <div className='px-4 w-full mx-auto'>
+                        <div
+                            className={classNames(` rounded-xl relative min-w-[300px] max-w-[320px] w-full  mx-auto`,
+                                onStage ? 'bg-[#054379]' : 'bg-[#513B25]'
+                            )}
+                        >
+                            <div
+                                className="absolute top-0 left-0 w-full h-full z-0"
+                                style={{
+                                    backgroundImage: `url(${PosterBG})`,
+                                    backgroundRepeat: 'repeat',
+                                    backgroundSize: 'auto 200px', // Increased height for bigger images
+                                    backgroundPosition: '0 0',
+                                    opacity: 0.1, // Slightly increased opacity for visibility
+                                }}
+                            />
 
 
-                    {/* Background Image */}
-                    {/* <img src={PosterBG} alt="poster" className=" opacity-10 absolute top-0 left-0 z-0" />
+                            {/* Background Image */}
+                            {/* <img src={PosterBG} alt="poster" className=" opacity-10 absolute top-0 left-0 z-0" />
                 <img src={PosterBG} alt="poster" className="opacity-10 absolute top-0 right-0 z-0" />
                 <img src={PosterBG} alt="poster" className="w-full h-full opacity-10 absolute top-0 left-0 z-0" /> */}
-                    {/* Result */}
-                    <div className="relative z-10 flex flex-col p-4 w-full">
-                        <div className="flex flex-col justify-center w-full items-center gap-6">
-                            <div>
-                                <h1 className='font-bold text-2xl text-white uppercase'>{result?.programName}</h1>
-                            </div>
-                            {/* <div className="basis-[20%] relative break-words flex items-center justify-center w-20 z-20 text-white">
+                            {/* Result */}
+                            <div className="relative z-10 flex flex-col p-4 w-full">
+                                <div className="flex flex-col justify-center w-full items-center gap-6">
+                                    <div>
+                                        <h1 className='font-bold text-2xl text-white uppercase'>{result?.programName}</h1>
+                                    </div>
+                                    {/* <div className="basis-[20%] relative break-words flex items-center justify-center w-20 z-20 text-white">
                             {dynamicTextWithBreak('Speech English')}
                         </div> */}
-                            <div className="max-w-full w-fit mx-auto">
-                                {result?.winners && result?.winners.map((item, index) => (
-                                    <div className="flex items-start justify-start gap-6 mb-4 w-full" key={index}>
-                                        {/* Badge */}
-                                        <div className="relative flex items-center justify-center h-10">
-                                            <img src={badge} className="h-10" alt="badge" />
-                                            <span className="absolute font-bold text-xl text-white p-1">{item?.position}</span>
-                                        </div>
-                                        {/* Name and Details */}
-                                        <div className='flex flex-col flex-1 flex-grow'>
-                                            {item.participants.map((item, index) => (
-                                                <div className="flex flex-col">
-                                                    <span className="font-bold text-lg leading-4 mt-1 capitalize text-[#FFBF34] max-w-[240px]">
-                                                        {item?.name}
-                                                    </span>
-                                                    <span className="text-xs capitalize text-white">{item?.department} {getYear(item?.year)}</span>
+                                    <div className="max-w-full w-fit mx-auto">
+                                        {result?.winners && result?.winners.map((item, index) => (
+                                            <div className="flex items-start justify-start gap-6 mb-4 w-full" key={index}>
+                                                {/* Badge */}
+                                                <div className="relative flex items-center justify-center h-10">
+                                                    <img src={badge} className="h-10" alt="badge" />
+                                                    <span className="absolute font-bold text-xl text-white p-1">{item?.position}</span>
                                                 </div>
-                                            ))}
+                                                {/* Name and Details */}
+                                                <div className='flex flex-col flex-1 flex-grow'>
+                                                    {item.participants.map((item, index) => (
+                                                        <div className="flex flex-col" key={index}>
+                                                            <span className={classNames("font-bold text-lg leading-4 mt-1 capitalize  max-w-[240px]",
+                                                                onStage ? 'text-[#00B4E1]' : 'text-[#FFBF34]'
+                                                            )}>
+                                                                {item?.name}
+                                                            </span>
+                                                            <span className="text-xs capitalize text-white">{item?.department} {getYear(item?.year)}</span>
+                                                        </div>
+                                                    ))}
 
-                                            {/* <div className="flex flex-col">
+                                                    {/* <div className="flex flex-col">
                                             <span className="font-bold text-lg leading-4 mt-1 capitalize text-[#FFBF34]">
                                                 {item.name}
                                             </span>
                                             <span className="text-xs capitalize text-white">{item.name}</span>
                                         </div> */}
-                                        </div>
+                                                </div>
+                                            </div>
+                                        ))}
                                     </div>
-                                ))}
+                                </div>
+                            </div>
+
+                            {/* stars */}
+                            <div className='absolute -top-10 -right-0  flex flex-col items-center justify-center'>
+                                {onStage ? (
+                                    <>
+                                        <img src={wideStar_onstage} alt='star' className='mx-auto pl-10' />
+                                        <img src={wideStarBig_onstage} alt='star' className='mx-auto' />
+                                    </>
+                                ) : (
+                                    <>
+                                        <img src={wideStar} alt='star' className='mx-auto pl-10' />
+                                        <img src={wideStarBig} alt='star' className='mx-auto' />
+                                    </>
+                                )}
+                            </div>
+                            <div className='absolute  -left-0  -bottom-10 flex flex-col items-center justify-center'>
+                                <img src={wideStarBig} alt='star' className='mx-auto' />
+                                <img src={wideStar} alt='star' className='mx-auto pr-10' />
                             </div>
                         </div>
-                    </div>
+                        <div className='flex items-center justify-between w-full max-w-[320px] mx-auto mt-10'>
+                            <div>
+                                {onStage ? (
+                                    <img src={poster_element_onstage} alt='element' className='mx-auto' />
+                                ) : (
+                                    <img src={poster_element} alt='element' className='mx-auto' />
+                                )}
+                            </div>
+                            <div>
+                                {onStage ? (
+                                    <img src={UnionLogo_onstage} alt='logo' className='mx-auto' />
+                                ) : (
+                                    <img src={UnionLogo} alt='logo' className='mx-auto' />
+                                )}
+                            </div>
 
-                    {/* stars */}
-                    <div className='absolute -top-10 -right-0  flex flex-col items-center justify-center'>
-                        <img src={wideStar} alt='star' className='mx-auto pl-10' />
-                        <img src={wideStarBig} alt='star' className='mx-auto' />
+                        </div>
                     </div>
-                    <div className='absolute  -left-0  -bottom-10 flex flex-col items-center justify-center'>
-                        <img src={wideStarBig} alt='star' className='mx-auto' />
-                        <img src={wideStar} alt='star' className='mx-auto pr-10' />
-                    </div>
-                </div>
-                <div className='flex items-center justify-between w-full max-w-[320px] mx-auto mt-10'>
-                    <div>
-                        <img src={poster_element} alt='element' className='mx-auto' />
-                    </div>
-                    <div>
-                        <img src={UnionLogo} alt='logo' className='mx-auto' />
-                    </div>
+                    {/* element */}
 
                 </div>
             </div>
-            {/* element */}
-
         </div>
     )
 }

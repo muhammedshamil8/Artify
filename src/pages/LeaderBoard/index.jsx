@@ -15,7 +15,7 @@ import {
 function Index() {
   const { handleNavigate } = useNavigateHook();
   const [teamData, setTeamData] = useState([]);
-  const [individualData, setIndividualData] = useState([]);
+  const [topScorers, setTopScorers] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const ApiUrl = import.meta.env.VITE_BASE_URL;
@@ -31,7 +31,7 @@ function Index() {
           },
         });
         const data = await response.json();
-
+  
         // Format and sort individual data
         const individualData = data.data.topScorers
           .map((scorer) => ({
@@ -43,25 +43,16 @@ function Index() {
             total_score: scorer.total_score,
           }))
           .sort((a, b) => b.total_score - a.total_score);
-
-        // Format and sort department scores
-        const departmentData = data.data.departmentScores
-          .map((dept) => ({
-            department: dept._id,
-            total_score: dept.total_score,
+  
+        // Format and sort categorized scores from departmentScores
+        const categorizedData = Object.entries(data.data.departmentScores)
+          .map(([department, total_score]) => ({
+            department,
+            total_score,
           }))
           .sort((a, b) => b.total_score - a.total_score);
-
-        // Format and sort categorized scores
-        const categorizedData = data.data.categorizedScores
-          .map((category) => ({
-            department: category.department,
-            total_score: category.total_score,
-          }))
-          .sort((a, b) => b.total_score - a.total_score);
-
-        // Set the state with the sorted data
-        setIndividualData(individualData);
+  
+        setTopScorers(individualData);
         setTeamData(categorizedData);
         setLoading(false);
       } catch (error) {
@@ -69,9 +60,10 @@ function Index() {
         setLoading(false);
       }
     };
-
+  
     fetchData();
   }, []);
+  
 
   // blur bg eleemts
   const circles = [
@@ -167,7 +159,7 @@ function Index() {
             <Skeleton className="min-h-[80px] mx-auto w-full max-w-[350px]  rounded-xl bg-slate-300" key={index} />
           ))) :
           (
-            individualData.map((item, index) => (
+            topScorers.map((item, index) => (
               <motion.div
                 className='w-full max-w-[350px]'
                 key={index}

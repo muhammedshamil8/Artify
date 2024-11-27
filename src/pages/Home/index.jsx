@@ -49,9 +49,11 @@ function index() {
             const topIndividual = data.data.topScorers.reduce((max, scorer) =>
               scorer.total_score > (max.total_score || 0) ? scorer : max, {});
       
-            // Get the category with the highest score
-            const topCategory = data.data.categorizedScores.reduce((max, category) =>
-              category.total_score > (max.total_score || 0) ? category : max, {});
+            // Get the category (department) with the highest score from departmentScores
+            const topCategory = Object.entries(data.data.departmentScores)
+              .map(([department, total_score]) => ({ department, total_score }))
+              .reduce((max, category) =>
+                category.total_score > (max.total_score || 0) ? category : max, {});
       
             // Set the state with only the highest scorers
             setCard1({
@@ -74,8 +76,8 @@ function index() {
       
         fetchData();
       }, []);
-      
 
+      
     const loadingDummyCard1Data = {
         name: 'loading...',
         points: 123

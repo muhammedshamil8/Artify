@@ -20,8 +20,18 @@ import badge_white from './badge_white.svg';
 import L_bar_element from './leaderb_bar_element.svg';
 import L_star_element from './leaderb_star_element.svg';
 
+import poster_element_onstage from './poster_element_onstage.svg';
+import UnionLogo_onstage from './Union_logo_onstage.svg';
+import wideStar_onstage from './wide_onstage.svg';
+import wideStarBig_onstage from './wide_big_onstage.svg';
+import ResultTxt_onstage from './Result_onstage.svg';
 
 export {
+    wideStarBig_onstage,
+    wideStar_onstage,
+    UnionLogo_onstage,
+    poster_element_onstage,
+    ResultTxt_onstage,
     Star,
     ArtifyTxt,
     VstarRB,
