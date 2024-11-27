@@ -133,10 +133,10 @@ function index() {
                 <div className='flex flex-col items-end justify-center h-full '>
 
                     {/* card show */}
-                    <div className='absolute z-10 top-28 w-full h-full'>
+                    <div className='absolute z-10 top-20 w-full h-full'>
                         <div className='relative h-[350px] z-10'>
                             <motion.div
-                                className='absolute -right-12 top-10 rotate-[25deg] z-10'
+                                className='absolute -right-12 top-4 rotate-[25deg] z-10'
                                 initial={{ opacity: 0, y: -50, rotate: 15 }}
                                 animate={{ opacity: 1, y: 0, rotate: 25 }}
                                 transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
