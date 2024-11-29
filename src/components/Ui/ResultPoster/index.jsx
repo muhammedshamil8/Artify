@@ -76,7 +76,7 @@ function index({ result }) {
     return (
         <div className="flex justify-center items-center">
             {/* Wrapper with Aspect Ratio */}
-            <div className="w-full max-w-[1080px] aspect-[4/5] bg-white rounded-md overflow-hidden">
+            <div className="w-full max-w-[1080px]  bg-white rounded-md overflow-hidden">
                 {/* Main Poster Content */}
                 <div className='max-w-[400px] mx-auto border py-4 bg-white rounded-md flex flex-col w-full gap-6 overflow-hidden'>
                     {/* banner */}
