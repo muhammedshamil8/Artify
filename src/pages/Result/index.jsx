@@ -138,14 +138,30 @@ function index() {
       const formattedData = data.map((program) => ({
         programName: program.name,
         stageStatus: program.is_onstage ? 'on_stage' : 'off_stage',
-        winners: program.winningRegistrations.map((winner) => ({
-          position: winner.position,
-          participants: winner.eventRegistration.participants.user.map((participant) => ({
-            name: participant.name,
-            department: participant.department,
-            year: participant.year_of_study,
-          })),
-        })),
+        winners: program.winningRegistrations.reduce((acc, winner) => {
+          const existingPosition = acc.find((w) => w.position === winner.position);
+          if (existingPosition) {
+            // Add participants to the existing position group
+            existingPosition.participants.push(
+              ...winner.eventRegistration.participants.user.map((participant) => ({
+                name: participant.name,
+                department: participant.department,
+                year: participant.year_of_study,
+              }))
+            );
+          } else {
+            // Create a new group for this position
+            acc.push({
+              position: winner.position,
+              participants: winner.eventRegistration.participants.user.map((participant) => ({
+                name: participant.name,
+                department: participant.department,
+                year: participant.year_of_study,
+              })),
+            });
+          }
+          return acc;
+        }, []),
       }));
       // console.log(formattedData);
       setSelectedProgram(formattedData[0]);
@@ -216,7 +232,7 @@ function index() {
               <div className='border rounded-lg border-black min-h-[360px] mx-auto min-w-[300px] max-w-[400px] overflow-hidden flex flex-col shadow-sm '>
                 <div className='flex-1 flex-grow  basis-[85%]' id="resultPosterId" >
                   {/* <div className="aspect-[1/1] w-full max-w-[1080px]"> */}
-                    <ResultPoster result={selectedProgram} />
+                  <ResultPoster result={selectedProgram} />
                   {/* </div> */}
                 </div>
                 <div className='grid grid-cols-3 h-[20px] basis-[15%] border-t border-black overflow-hidden'>
