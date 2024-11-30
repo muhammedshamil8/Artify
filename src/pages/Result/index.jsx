@@ -25,7 +25,7 @@ function index() {
     try {
 
       const fetchPrograms = async () => {
-        const response = await fetch(`${ApiUrl}/users/events`, {
+        const response = await fetch(`${ApiUrl}/users/events/resultPublished`, {
           method: 'GET',
         });
         // console.log(response);
@@ -40,7 +40,7 @@ function index() {
         const formattedData = data.map((program) => ({
           label: program.name,
           value: program._id,
-          stage: program.event_type.is_onstage ? 'On Stage' : 'Off Stage',
+          // stage: program.event_type.is_onstage ? 'On Stage' : 'Off Stage',
         }));
 
         await handleSelectProgram(formattedData[0]);
