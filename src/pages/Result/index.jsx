@@ -137,6 +137,7 @@ function index() {
 
       const formattedData = data.map((program) => ({
         programName: program.name,
+        result_no: program.serial_number,
         stageStatus: program.is_onstage ? 'on_stage' : 'off_stage',
         winners: program.winningRegistrations.reduce((acc, winner) => {
           const existingPosition = acc.find((w) => w.position === winner.position);

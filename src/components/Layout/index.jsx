@@ -11,7 +11,7 @@ const Layout = ({ children }) => {
                     <ul className='flex justify-around font-semibold'>
                         <li><Link to="/">Home</Link></li>
                         <li><Link to="/LeaderBoard">LeaderBoard</Link></li>
-                        <li><Link to="/IndividualResult">Individual Result</Link></li>
+                        <li><Link to="/results">Individual Result</Link></li>
                     </ul>
                 </nav> */}
             {/* </header> */}

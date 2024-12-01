@@ -14,7 +14,7 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/LeaderBoard" element={<LeaderBoard />} />
-            <Route path="/IndividualResult" element={<IndividualResult />} />
+            <Route path="/results" element={<IndividualResult />} />
           </Routes>
         </AnimatePresence>
       </Layout>

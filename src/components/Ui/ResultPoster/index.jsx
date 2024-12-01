@@ -73,6 +73,11 @@ function index({ result }) {
         return '';
     }
 
+    function getResultNum(num) {
+        return num.toString().padStart(3, '0');
+    }
+    
+
     return (
         <div className="flex justify-center items-center">
             {/* Wrapper with Aspect Ratio */}
@@ -109,7 +114,7 @@ function index({ result }) {
                         )}
                         <span className={classNames('rounded-full -ml-8 mt-4 p-0.5 font-bold w-[35px] h-[35px] flex items-center justify-center text-sm text-white',
                             onStage ? 'bg-[#00B4E1]' : 'bg-[#D39E2B]'
-                        )}>001</span>
+                        )}>{getResultNum(result?.result_no)}</span>
                     </div>
 
                     {/* result  card*/}
