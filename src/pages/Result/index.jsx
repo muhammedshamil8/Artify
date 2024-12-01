@@ -286,10 +286,13 @@ function index() {
                   ease: 'easeInOut'
                 }}
 
-                onClick={() => handleSelectProgram(program)}
-                className='flex items-center justify-between gap-4 py-1.5 px-8 md:px-10 border border-[#2e2d2d] bg-white rounded-md w-fit cursor-pointer transition-all ease-in-out duration-300 hover:bg-gray-200 hover:-translate-y-2 hover:shadow-xl hover:z-10'
               >
-                <p className='font-semibold'>{program.label}</p>
+                <button
+                  disabled={program.id === selectedProgram?.id}
+                  onClick={() => handleSelectProgram(program)}
+                  className='flex items-center justify-between gap-4 py-1.5 px-8 md:px-10 border border-[#2e2d2d] bg-white rounded-md w-fit cursor-pointer transition-all ease-in-out duration-300 hover:bg-gray-200 hover:-translate-y-2 hover:disabled:translate-y-0 hover:disabled:shadow-none hover:shadow-xl hover:z-10 disabled:bg-gray-200 disabled:cursor-not-allowed'>
+                  <p className='font-semibold'>{program.label}</p>
+                </button>
               </motion.div>
             ))}
           </AnimatePresence>
