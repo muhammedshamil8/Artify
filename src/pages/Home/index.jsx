@@ -229,7 +229,7 @@ function index() {
                             }}
                             transition={{ type: 'spring', stiffness: 120, delay: 0.2 }}
                         >
-                            <Button onClick={() => handleNavigate('IndividualResult')}>
+                            <Button onClick={() => handleNavigate('results')}>
                                 <span className='flex items-center justify-center flex-1 font-semibold'>
                                      Result
                                 </span>
