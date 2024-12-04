@@ -79,7 +79,7 @@ function Index() {
 
   const handleShare = async () => {
     const poster = document.getElementById('resultPosterId');
-    // poster.classList.remove('hidden');
+    poster.classList.remove('hidden');
 
     // Wait for fonts and layout to load
     await document.fonts.ready;
@@ -141,9 +141,7 @@ function Index() {
         <span onClick={() => handleShare()} className='border border-black rounded-full text-xs leading-3 py-1.5 px-3 flex items-center justify-center gap-2 cursor-pointer'><Share2 size={15} fill='black' />Share Now</span>
         {/* <ShareNowButton /> */}
       </div>
-      <div id='resultPosterId' className='hidden'>
-        <LeaderBoardPoster data={teamData} />
-      </div>
+
       <div className='flex flex-col items-center justify-center w-full gap-8 p-2 pb-6 z-40'>
         {loading ? (
           Array.from({ length: 4 }).map((_, index) => (
@@ -196,7 +194,9 @@ function Index() {
       </div>
 
 
-
+      <div id='resultPosterId' className='hidden'>
+        <LeaderBoardPoster data={teamData} />
+      </div>
       <div className="absolute w-full flex flex-col justify-between top-0 h-full z-0">
         {circles.map((circle, index) => (
           <div className="relative" key={index}>
