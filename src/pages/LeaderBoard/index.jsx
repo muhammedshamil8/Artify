@@ -79,7 +79,7 @@ function Index() {
 
   const handleShare = async () => {
     const poster = document.getElementById('resultPosterId');
-    poster.classList.remove('hidden');
+    // poster.classList.remove('hidden');
 
     // Wait for fonts and layout to load
     await document.fonts.ready;
