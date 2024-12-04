@@ -194,7 +194,7 @@ function Index() {
       </div>
 
 
-      <div id='resultPosterId' className='hidden'>
+      <div className='max-w-[400px] mx-auto hidden' id="resultPosterId" >
         <LeaderBoardPoster data={teamData} />
       </div>
       <div className="absolute w-full flex flex-col justify-between top-0 h-full z-0">
