@@ -304,7 +304,7 @@ function index() {
         )}
       </section>
 
-      <div className="absolute w-full flex flex-col justify-between top-0 h-full z-0">
+      <div className="absolute w-full flex flex-col justify-between top-20 h-full z-0">
         {[
           { bg: '#5F01D191', position: 'absolute -left-10' },
           { bg: '#FE346E91', position: 'absolute -right-10' },
