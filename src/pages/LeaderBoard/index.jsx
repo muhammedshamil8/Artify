@@ -98,8 +98,9 @@ function Index() {
           try {
             // Share the image as a file
             await navigator.share({
-              title: 'Poster Share',
-              text: `Check out this awesome poster! 🎉 come and check other results ${'https://artify-beryl.vercel.app/'}`,
+              title: 'Artify Leaderboard',
+              url: 'https://artify.connectemea.in',
+              text: "Check out the Artify Leaderboard🎉",
               files: [file], // Pass the image file
             });
             // console.log('Shared successfully!');
