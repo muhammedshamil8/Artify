@@ -248,7 +248,7 @@ function index() {
 
                 </div>
                 {/* vector elements */}
-                <div className='flex justify-around gap-4 absolute bottom-[35px] w-full'>
+                <div className='flex justify-around gap-4 absolute bottom-[20px] w-full'>
                     <img src={VstarLB} alt='star' className='h-16 w-16' />
                     <img src={VstarRB} alt='star' className='h-16 w-16' />
                 </div>

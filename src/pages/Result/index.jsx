@@ -93,7 +93,7 @@ function index() {
             await navigator.share({
               title: "Artify",
               url: 'https://artify.connectemea.in',
-              text: "Check out other results! 🎉",
+              text: "Check out the winners! 🎉",
               files: [file], // Pass the image file
             });
             // console.log('Shared successfully!');
