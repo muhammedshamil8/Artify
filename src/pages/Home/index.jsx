@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import Button from '@/components/Ui/Button'
 import ArrowBtn from '@/components/Ui/ArrowBtn'
-import { Star, ArtifyTxt, VstarRB, VstarLB, VstarT, VstarLT, VstarRT , ArtifyLogo } from '@/assets/icons'
+import { Star, ArtifyTxt, VstarRB, VstarLB, VstarT, VstarLT, VstarRT } from '@/assets/icons/elements/other'
+import { ArtifyLogo } from '@/assets/logo'
 import useNavigateHook from '@/composables'
 import '@/assets/styles/home.css'
 import ResultCard from './components/ResultCard'
@@ -35,49 +36,49 @@ function index() {
 
     useEffect(() => {
         const fetchData = async () => {
-          setLoading(true);
-          try {
-            const response = await fetch(`${ApiUrl}/users/results/leaderboard`, {
-              method: 'GET',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-            });
-            const data = await response.json();
-      
-            // Get the top-scoring individual
-            const topIndividual = data.data.topScorers.reduce((max, scorer) =>
-              scorer.total_score > (max.total_score || 0) ? scorer : max, {});
-      
-            // Get the category (department) with the highest score from departmentScores
-            const topCategory = Object.entries(data.data.departmentScores)
-              .map(([department, total_score]) => ({ department, total_score }))
-              .reduce((max, category) =>
-                category.total_score > (max.total_score || 0) ? category : max, {});
-      
-            // Set the state with only the highest scorers
-            setCard1({
-              name: topIndividual.name,
-              total_score: topIndividual.total_score,
-              department: topIndividual.department,
-            });
-      
-            setCard2({
-              department: topCategory.department,
-              total_score: topCategory.total_score,
-            });
-      
-            setLoading(false);
-          } catch (error) {
-            console.error("Error fetching leaderboard data:", error);
-            setLoading(false);
-          }
-        };
-      
-        fetchData();
-      }, []);
+            setLoading(true);
+            try {
+                const response = await fetch(`${ApiUrl}/users/results/leaderboard`, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                });
+                const data = await response.json();
 
-      
+                // Get the top-scoring individual
+                const topIndividual = data.data.topScorers.reduce((max, scorer) =>
+                    scorer.total_score > (max.total_score || 0) ? scorer : max, {});
+
+                // Get the category (department) with the highest score from departmentScores
+                const topCategory = Object.entries(data.data.departmentScores)
+                    .map(([department, total_score]) => ({ department, total_score }))
+                    .reduce((max, category) =>
+                        category.total_score > (max.total_score || 0) ? category : max, {});
+
+                // Set the state with only the highest scorers
+                setCard1({
+                    name: topIndividual.name,
+                    total_score: topIndividual.total_score,
+                    department: topIndividual.department,
+                });
+
+                setCard2({
+                    department: topCategory.department,
+                    total_score: topCategory.total_score,
+                });
+
+                setLoading(false);
+            } catch (error) {
+                console.error("Error fetching leaderboard data:", error);
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    }, []);
+
+
     const loadingDummyCard1Data = {
         name: 'loading...',
         points: 123
@@ -231,7 +232,7 @@ function index() {
                         >
                             <Button onClick={() => handleNavigate('results')}>
                                 <span className='flex items-center justify-center flex-1 font-semibold'>
-                                     Result
+                                    Result
                                 </span>
                                 <motion.div
                                     className='flex justify-end items-center'

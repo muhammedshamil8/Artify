@@ -1,5 +1,6 @@
 import React from 'react'
-import { badge } from '@/assets/icons'
+import { badge } from '@/assets/icons/elements/leaderboard'
+import classNames from 'classnames'
 
 // with image card
 function index({ position, data }) {
@@ -14,12 +15,27 @@ function index({ position, data }) {
     }
     return (
         <div className='w-full mx-auto h-fit z-30 border border-black bg-white rounded-xl flex items-center justify-between gap-6 py-2 px-3'>
-            <div className='flex items-start justify-center gap-6'>
-                <div className='relative flex items-center justify-center'><img src={badge} className='h-12' /><span className='absolute font-bold text-xl'>{position}</span></div>
-                <div className='flex flex-col'><span className='font-bold text-lg leading-4 mt-2 capitalize'>{data.name}</span><span className='text-xs capitalize'>{data.department} {getYear(data.year_of_study)}</span></div>
+            <div className='grid grid-cols-4 gap-6'>
+                <div className="relative flex items-center justify-start">
+                    <img src={badge} className="h-12" />
+                    <span
+                        className={classNames(
+                            'absolute font-bold text-lg flex items-center top-[12px] justify-center prata-font leading-0',
+                            position === 10 ? 'left-[15px]' :
+                                position === 1 ? 'left-[19px]' : 'left-[17px]',
+                            position === 6 ? 'top-[15px]' : 'top-[12px]',
+                        )}
+                    >
+                        {position}
+                    </span>
+
+                </div>
+                <div className='flex flex-col col-span-3 items-start'>
+                    <span className='font-bold text-lg leading-4 mt-2 capitalize'>{data.name}</span><span className='text-xs capitalize'>{data.department} {getYear(data.year_of_study)}</span>
+                </div>
             </div>
             <div className='font-bold text-xl'>{data.total_score}<sub>pts</sub></div>
-        </div>
+        </div >
     )
 }
 
