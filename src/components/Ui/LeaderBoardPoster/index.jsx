@@ -22,11 +22,18 @@ function index({ data }) {
     return (
         <div className="flex justify-center items-center z-40">
             <div className="w-full max-w-[1080px]  bg-white rounded-md overflow-hidden">
-                <div className='max-w-[400px] mx-auto  py-4 bg-white rounded-md flex flex-col w-full gap-2 overflow-hidden'>
+                <div className='max-w-[400px] mx-auto border py-4 bg-white rounded-md flex flex-col w-full gap-2 overflow-hidden'>
                     {/* banner */}
                     <div className={classNames(' h-[35px] my-2  w-full overflow-hidden z-20 bg-black',
                     )}>
                         <div className='marquee flex justify-start h-full gap-4'>
+                            {[...Array(10)].map((_, i) => (
+                                <div key={i} className='flex items-center justify-center gap-3 text-white h-full mx-6'>
+                                    <span className='whitespace-nowrap'>{`Welcome to Artify`}</span>
+                                    <img src={Star} alt='star' className='h-5 w-5' />
+                                    <img src={ArtifyLogo} alt='star' className='h-[35px] w-5' />
+                                </div>
+                            ))}
                             {[...Array(10)].map((_, i) => (
                                 <div key={i} className='flex items-center justify-center gap-3 text-white h-full mx-6'>
                                     <span className='whitespace-nowrap'>{`Welcome to Artify`}</span>
