@@ -8,10 +8,10 @@ import { motion } from "motion/react"
 import { Loader, Share2 } from 'lucide-react'
 import { Skeleton } from '@/components/Ui/Skelton'
 import ShareNowButton from './components/ShareButton'
-import {
-  L_bar_element,
-  L_star_element
-} from '@/assets/icons'
+import { L_bar_element, L_star_element } from '@/assets/icons/elements/leaderboard'
+import LeaderBoardPoster from '@/components/Ui/LeaderBoardPoster'
+import html2canvas from 'html2canvas';
+
 function Index() {
   const { handleNavigate } = useNavigateHook();
   const [teamData, setTeamData] = useState([]);
@@ -31,7 +31,7 @@ function Index() {
           },
         });
         const data = await response.json();
-  
+
         // Format and sort individual data
         const individualData = data.data.topScorers
           .map((scorer) => ({
@@ -43,7 +43,7 @@ function Index() {
             total_score: scorer.total_score,
           }))
           .sort((a, b) => b.total_score - a.total_score);
-  
+
         // Format and sort categorized scores from departmentScores
         const categorizedData = Object.entries(data.data.departmentScores)
           .map(([department, total_score]) => ({
@@ -51,7 +51,7 @@ function Index() {
             total_score,
           }))
           .sort((a, b) => b.total_score - a.total_score);
-  
+
         setTopScorers(individualData);
         setTeamData(categorizedData);
         setLoading(false);
@@ -60,10 +60,10 @@ function Index() {
         setLoading(false);
       }
     };
-  
+
     fetchData();
   }, []);
-  
+
 
   // blur bg eleemts
   const circles = [
@@ -77,28 +77,42 @@ function Index() {
     { bg: '#20BBAD91', position: '-right-10 bottom-0' },
   ];
 
-  const cardColors = [
-    {
-      text: '#F7C261',
-      num: '#E5A224',
-      shadow: '#E5A22440'
-    },
-    {
-      text: '#959393',
-      num: '#535353',
-      shadow: '#B7B5B54D'
-    },
-    {
-      text: '#D8914A',
-      num: '#B46415',
-      shadow: '#B96A1C40'
-    },
-    {
-      text: '#4583BF',
-      num: '#125494',
-      shadow: '#12549440'
-    },
-  ];
+  const handleShare = async () => {
+    const poster = document.getElementById('resultPosterId');
+    poster.classList.remove('hidden');
+
+    // Wait for fonts and layout to load
+    await document.fonts.ready;
+    // Capture the content of the element as a canvas
+    html2canvas(poster).then((canvas) => {
+      poster.classList.add('hidden');
+      // Convert the canvas to a Blob
+      canvas.toBlob(async (blob) => {
+        if (!blob) return;
+
+        // Create a File object from the Blob
+        const file = new File([blob], 'poster.png', { type: 'image/png' });
+
+        // Check if the Web Share API supports file sharing
+        if (navigator.share) {
+          try {
+            // Share the image as a file
+            await navigator.share({
+              title: 'Poster Share',
+              text: `Check out this awesome poster! 🎉 come and check other results ${'https://artify-beryl.vercel.app/'}`,
+              files: [file], // Pass the image file
+            });
+            // console.log('Shared successfully!');
+          } catch (err) {
+            console.error('Error sharing:', err);
+          }
+        } else {
+          console.warn('Web Share API not supported or file sharing not supported');
+          alert('Sorry, file sharing is not supported on your device please download the image and share it manually');
+        }
+      });
+    });
+  };
 
   return (
     <motion.div
@@ -123,8 +137,11 @@ function Index() {
         </div>
       </div>
       <div className='flex items-end justify-end max-w-[350px] w-full mx-auto  my-2 z-10'>
-        {/* <span className='border border-black rounded-full text-xs leading-3 py-1.5 px-3 flex items-center justify-center gap-2 cursor-pointer'><Share2 size={15}  fill='black'/>Share Now</span> */}
-        <ShareNowButton />
+        <span onClick={() => handleShare()} className='border border-black rounded-full text-xs leading-3 py-1.5 px-3 flex items-center justify-center gap-2 cursor-pointer'><Share2 size={15} fill='black' />Share Now</span>
+        {/* <ShareNowButton /> */}
+      </div>
+      <div id='resultPosterId' className='hidden'>
+        <LeaderBoardPoster data={teamData} />
       </div>
       <div className='flex flex-col items-center justify-center w-full gap-8 p-2 pb-6 z-40'>
         {loading ? (

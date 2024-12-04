@@ -1,5 +1,5 @@
 import React from 'react'
-import { ResultCard } from '@/assets/icons'
+import { ResultCard } from '@/assets/icons/elements/other'
 
 function index({data}) {
     return (

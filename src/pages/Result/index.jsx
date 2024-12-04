@@ -3,7 +3,7 @@ import Button from '@/components/Ui/Button'
 import ArrowBtn from '@/components/Ui/ArrowBtn'
 import useNavigateHook from '@/composables'
 import { Search, Share2, Download, Loader } from 'lucide-react'
-import { PosterStar, Poster } from '@/assets/icons'
+import { PosterStar } from '@/assets/icons/elements/other'
 import { motion, AnimatePresence } from "motion/react"
 import { Skeleton } from '@/components/Ui/Skelton'
 import ResultPoster from '@/components/Ui/ResultPoster'
@@ -92,7 +92,8 @@ function index() {
             // Share the image as a file
             await navigator.share({
               title: 'Poster Share',
-              text: `Check out this awesome poster! 🎉 come and check other results ${'https://artify-beryl.vercel.app/'}`,
+              url: 'https://artify-beryl.vercel.app/',
+              text: "Check out this awesome poster! 🎉 come and check other results ${'https://artify-beryl.vercel.app/'}",
               files: [file], // Pass the image file
             });
             // console.log('Shared successfully!');
@@ -137,6 +138,7 @@ function index() {
 
       const formattedData = data.map((program) => ({
         programName: program.name,
+        id: program._id,
         result_no: program.serial_number,
         stageStatus: program.is_onstage ? 'on_stage' : 'off_stage',
         winners: program.winningRegistrations.reduce((acc, winner) => {
@@ -162,16 +164,19 @@ function index() {
             });
           }
           return acc;
-        }, []),
+        }, []).sort((a, b) => a.position - b.position),
       }));
-      // console.log(formattedData);
+
       setSelectedProgram(formattedData[0]);
+      console.log(formattedData[0]);
+      console.log(program)
       setLoadingPoster(false);
     } catch (error) {
       console.error('Failed to select program', error);
       setLoadingPoster(false);
     }
   };
+
 
   return (
     <motion.div
@@ -265,7 +270,7 @@ function index() {
       </div>
 
 
-      <section className='z-20 flex flex-wrap w-full mx-auto gap-4 py-10 items-start justify-center'>
+      <section className='z-20 flex flex-wrap w-full mx-auto gap-4 py-10 items-start justify-center px-2'>
         {loading ? (
           Array.from({ length: 7 }).map((_, index) => (
             <Skeleton className="h-10 w-40  px-8  bg-slate-300" key={index} />
@@ -288,10 +293,10 @@ function index() {
 
               >
                 <button
-                  disabled={program.id === selectedProgram?.id}
+                  disabled={program.value === selectedProgram?.id}
                   onClick={() => handleSelectProgram(program)}
-                  className='flex items-center justify-between gap-4 py-1.5 px-8 md:px-10 border border-[#2e2d2d] bg-white rounded-md w-fit cursor-pointer transition-all ease-in-out duration-300 hover:bg-gray-200 hover:-translate-y-2 hover:disabled:translate-y-0 hover:disabled:shadow-none hover:shadow-xl hover:z-10 disabled:bg-gray-200 disabled:cursor-not-allowed'>
-                  <p className='font-semibold'>{program.label}</p>
+                  className='flex items-center justify-between gap-4 py-1.5 px-6 md:px-8 border border-[#2e2d2d] bg-white rounded-md w-fit cursor-pointer transition-all ease-in-out duration-300 hover:bg-gray-200 hover:-translate-y-2 hover:disabled:translate-y-0 hover:disabled:shadow-none hover:shadow-xl hover:z-10 disabled:bg-gray-200 disabled:cursor-not-allowed'>
+                  <p className='font-semibold'>{program.label} </p>
                 </button>
               </motion.div>
             ))}
