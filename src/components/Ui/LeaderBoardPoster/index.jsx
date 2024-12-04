@@ -22,7 +22,7 @@ function index({ data }) {
     return (
         <div className="flex justify-center items-center z-40">
             <div className="w-full max-w-[1080px]  bg-white rounded-md overflow-hidden">
-                <div className='max-w-[400px] mx-auto border py-4 bg-white rounded-md flex flex-col w-full gap-2 overflow-hidden'>
+                <div className='max-w-[400px] mx-auto  py-4 bg-white rounded-md flex flex-col w-full gap-2 overflow-hidden'>
                     {/* banner */}
                     <div className={classNames(' h-[35px] my-2  w-full overflow-hidden z-20 bg-black',
                     )}>
