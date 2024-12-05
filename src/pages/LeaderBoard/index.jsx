@@ -99,7 +99,7 @@ function Index() {
             // Share the image as a file
             await navigator.share({
               title: 'Artify Leaderboard',
-              url: 'Check out the Artify Leaderboard🎉 visit https://artify.connectemea.in',
+              url: 'https://artify.connectemea.in',
               text: "Check out the Artify Leaderboard🎉",
               files: [file], // Pass the image file
             });
