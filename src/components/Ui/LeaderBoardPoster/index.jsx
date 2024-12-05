@@ -64,7 +64,7 @@ function index({ data }) {
                         <div className='px-4 w-full mx-auto max-w-[320px] flex flex-col gap-0'>
                             {/* Result */}
                             {data.map((item, index) => (
-                                <div className={classNames('w-full',
+                                <div key={index} className={classNames('w-full',
                                 )}>
                                     <Card key={index} position={index + 1} data={item} />
                                 </div>

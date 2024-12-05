@@ -220,7 +220,7 @@ function index() {
         {loadingPoster ? (
           <div>
             <div className='flex items-center justify-center mx-auto text-black p-3'>
-              <Skeleton className="min-h-[400px] mx-auto w-full max-w-[400px]  rounded-xl bg-slate-300" />
+              <Skeleton className="min-h-[500px] mx-auto w-full max-w-[400px]  rounded-xl bg-slate-300" />
             </div>
           </div>
         ) : (
