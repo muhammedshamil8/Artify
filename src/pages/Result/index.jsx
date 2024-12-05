@@ -198,9 +198,9 @@ function index() {
         </div>
 
         {/* search input */}
-        <div className='flex flex-col items-center justify-center gap-4 p-2 pb-10 mt-8'>
-          <div className='relative  h-fit overflow-hidden w-full mx-auto max-w-[400px]'>
-            <div className='border-[1px] border-[#716F6F] w-full max-w-[400px]  rounded-full flex items-center mx-auto shadow-sm shadow-[#FE346E26]'>
+        <div className='flex flex-col items-center justify-center gap-4 p-2 pb-10 mt-8 z-40 '>
+          <div className='relative  h-fit overflow-hidden w-full mx-auto max-w-[400px] '>
+            <div className='border-[1px] border-[#716F6F] w-full max-w-[400px]  z-40 bg-white rounded-full flex items-center mx-auto shadow-sm shadow-[#FE346E26]'>
 
               <div className='p-2'>
                 <Search size={20} />
@@ -209,8 +209,8 @@ function index() {
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
               />
-              <div className='absolute bg-white rounded-full w-2 h-4 left-8 -top-3 border-[1px] border-[#716F6F]' />
-              <div className='absolute bg-white rounded-full w-2 h-4 left-8 -bottom-3 border-[1px] border-[#716F6F]' />
+              <div className='absolute bg-[#e8e2f0] sm:bg-white rounded-full w-2 h-4 left-8 -top-3 border-[1px] border-[#716F6F]' />
+              <div className='absolute bg-[#f8f3fd] sm:bg-white rounded-full w-2 h-4 left-8 -bottom-3 border-[1px] border-[#716F6F]' />
 
             </div>
           </div>
