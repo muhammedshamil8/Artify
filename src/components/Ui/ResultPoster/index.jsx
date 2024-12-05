@@ -33,7 +33,7 @@ function index({ result }) {
     }, [result.stageStatus]);
 
     const getYear = (year) => {
-        if (year === 1) return '(1st year}';
+        if (year === 1) return '(1st year)';
         if (year === 2) return '(2nd year)';
         if (year === 3) return '(3rd year)';
         if (year === 4) return '(4th year)';

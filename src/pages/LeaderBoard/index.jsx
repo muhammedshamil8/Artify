@@ -31,7 +31,7 @@ function Index() {
           },
         });
         const data = await response.json();
-
+        console.log(data);
         // Format and sort individual data
         const individualData = data.data.topScorers
           .map((scorer) => ({
@@ -99,7 +99,7 @@ function Index() {
             // Share the image as a file
             await navigator.share({
               title: 'Artify Leaderboard',
-              url: 'https://artify.connectemea.in',
+              url: 'Check out the Artify Leaderboard🎉 visit https://artify.connectemea.in',
               text: "Check out the Artify Leaderboard🎉",
               files: [file], // Pass the image file
             });
@@ -138,7 +138,7 @@ function Index() {
         </div>
       </div>
       <div className='flex items-end justify-end max-w-[350px] w-full mx-auto  my-2 z-10'>
-        <span onClick={() => handleShare()} className='border border-black rounded-full text-xs leading-3 py-1.5 px-3 flex items-center justify-center gap-2 cursor-pointer'><Share2 size={15} fill='black' />Share Now</span>
+        <button disabled={loading} onClick={() => handleShare()} className='border border-black disabled:bg-gray-300 rounded-full text-xs leading-3 py-1.5 px-3 flex items-center justify-center gap-2 cursor-pointer'><Share2 size={15} fill='black' />Share Now</button>
         {/* <ShareNowButton /> */}
       </div>
 
@@ -194,10 +194,10 @@ function Index() {
       </div>
 
 
-      <div className='max-w-[400px] mx-auto hidden' id="resultPosterId" >
+      <div className='max-w-[400px] mx-auto hidden mt-[500px]' id="resultPosterId" >
         <LeaderBoardPoster data={teamData} />
       </div>
-      <div className="absolute w-full flex flex-col justify-between top-0 h-full z-0">
+      <div className="absolute w-full flex flex-col justify-between top-20 h-full z-0">
         {circles.map((circle, index) => (
           <div className="relative" key={index}>
             <div
