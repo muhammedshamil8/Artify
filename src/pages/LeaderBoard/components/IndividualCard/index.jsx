@@ -7,7 +7,7 @@ function index({ position, data }) {
     // console.log(data)
 
     const getYear = (year) => {
-        if (year === 1) return '(1st year}';
+        if (year === 1) return '(1st year)';
         if (year === 2) return '(2nd year)';
         if (year === 3) return '(3rd year)';
         if (year === 4) return '(4th year)';
@@ -16,14 +16,14 @@ function index({ position, data }) {
     return (
         <div className='w-full mx-auto h-fit z-30 border border-black bg-white rounded-xl flex items-center justify-between gap-6 py-2 px-3'>
             <div className='grid grid-cols-4 gap-6'>
-                <div className="relative flex items-center justify-start">
+                <div className="relative flex items-center justify-center">
                     <img src={badge} className="h-12" />
                     <span
                         className={classNames(
-                            'absolute font-bold text-lg flex items-center top-[12px] justify-center prata-font leading-0',
+                            'absolute font-bold text-lg h-fit flex items-center  justify-end prata-font',
                             position === 10 ? 'left-[15px]' :
                                 position === 1 ? 'left-[19px]' : 'left-[17px]',
-                            position === 6 ? 'top-[15px]' : 'top-[12px]',
+                            position === 6 ? 'mt-[5px]' : 'mt-[2px]',
                         )}
                     >
                         {position}
