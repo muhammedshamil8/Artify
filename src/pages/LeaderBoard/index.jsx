@@ -101,7 +101,7 @@ function Index() {
               title: 'Artify Leaderboard',
               url: 'https://artify.connectemea.in',
               text: "Check out the Artify Leaderboard🎉",
-              files: [file], // Pass the image file
+              files: [file], 
             });
             // console.log('Shared successfully!');
           } catch (err) {
