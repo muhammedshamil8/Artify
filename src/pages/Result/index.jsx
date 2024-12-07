@@ -110,12 +110,13 @@ function index() {
 
 
   useEffect(() => {
+    const poster = document.getElementById('posterCard');
     if (search !== '') {
-      const poster = document.getElementById('posterCard');
       poster.classList.add('hidden');
       const filteredProgram = programs.filter((program) => program.label.toLowerCase().includes(search.toLowerCase()));
       setFilteredPrograms(filteredProgram);
     } else if (search === '') {
+      poster.classList.remove('hidden');
       setFilteredPrograms(programs);
     }
 
