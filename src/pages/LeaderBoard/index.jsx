@@ -31,7 +31,7 @@ function Index() {
           },
         });
         const data = await response.json();
-        console.log(data);
+        // console.log(data);
         // Format and sort individual data
         const individualData = data.data.topScorers
           .map((scorer) => ({

@@ -18,6 +18,7 @@ function index() {
   const [loading, setLoading] = useState(true);
   const [loadingPoster, setLoadingPoster] = useState(true);
   const [selectedProgram, setSelectedProgram] = useState(null);
+  const [showPoster, setShowPoster] = useState(false);
   const ApiUrl = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
@@ -110,13 +111,12 @@ function index() {
 
 
   useEffect(() => {
-    const poster = document.getElementById('posterCard');
     if (search !== '') {
-      poster.classList.add('hidden');
+      setShowPoster(false);
       const filteredProgram = programs.filter((program) => program.label.toLowerCase().includes(search.toLowerCase()));
       setFilteredPrograms(filteredProgram);
     } else if (search === '') {
-      poster.classList.remove('hidden');
+      setShowPoster(true);
       setFilteredPrograms(programs);
     }
 
@@ -124,9 +124,9 @@ function index() {
 
 
   const handleSelectProgram = async (program) => {
+    setShowPoster(true);
     setLoadingPoster(true);
-    const poster = document.getElementById('posterCard');
-    poster.classList.remove('hidden');
+    
     try {
       const response = await fetch(`${ApiUrl}/users/result/event/${program.value}`, {
         method: 'GET',
@@ -173,8 +173,8 @@ function index() {
       }));
 
       setSelectedProgram(formattedData[0]);
-      console.log(formattedData[0]);
-      console.log(program)
+      // console.log(formattedData[0]);
+      // console.log(program)
       setLoadingPoster(false);
     } catch (error) {
       console.error('Failed to select program', error);
@@ -222,54 +222,57 @@ function index() {
         </div>
 
         {/* poster */}
-        <div id='posterCard' >
-          {loadingPoster ? (
-            <div>
-              <div className='flex items-center justify-center mx-auto text-black p-3'>
-                <Skeleton className="min-h-[500px] mx-auto w-full max-w-[400px]  rounded-xl bg-slate-300" />
-              </div>
-            </div>
-          ) : (
-            selectedProgram ? (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                  delay: 0.3,
-                  duration: 0.6,
-                  ease: 'easeInOut'
-                }}
-              >
-                <div className='border rounded-lg border-black min-h-[360px] mx-auto min-w-[300px] max-w-[400px] overflow-hidden flex flex-col shadow-sm '>
-                  <div className='flex-1 flex-grow  basis-[85%]' id="resultPosterId" >
-                    {/* <div className="aspect-[1/1] w-full max-w-[1080px]"> */}
-                    <ResultPoster result={selectedProgram} />
-                    {/* </div> */}
-                  </div>
-                  <div className='grid grid-cols-3 h-[20px] basis-[15%] border-t border-black overflow-hidden'>
-
-                    <div className='col-span-2 flex  items-center justify-center gap-3  relative'>
-                      <button className='flex  items-center justify-center gap-3' onClick={() => handleShare()}>
-                        <span ><Share2 /></span><p className='font-semibold'>Share Now</p>
-                      </button>
-                      <img src={PosterStar} alt='star' className='absolute left-3 -top-5 z-50 stroke-1 stroke-gray-200' />
-                      <img src={PosterStar} alt='star' className='absolute right-2 -bottom-6 z-50 stroke-1 stroke-gray-200' />
-
-                    </div>
-                    <div className='flex items-center justify-center border-l border-black relative py-2'>
-                      <span onClick={handleDownload} className='cursor-pointer'>
-                        <Download className='stroke-2' />
-                      </span>
-                      <img src={PosterStar} alt='star' className='absolute right-0 -top-6 z-50 stroke-1 stroke-gray-200' />
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            ) : (
+        <div >
+          {showPoster && (
+            loadingPoster ? (
               <div>
-                <p className='flex items-center justify-center mx-auto text-black font-medium'>No result to display</p>
+                <div className='flex items-center justify-center mx-auto text-black p-3'>
+                  <Skeleton className="min-h-[500px] mx-auto w-full max-w-[400px]  rounded-xl bg-slate-300" />
+                </div>
               </div>
+            ) : (
+              selectedProgram ? (
+                <motion.div
+                  key={index}
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{
+                    delay: 0.3,
+                    duration: 0.6,
+                    ease: 'easeInOut'
+                  }}
+
+                >
+                  <div className='border rounded-lg border-black min-h-[360px] mx-auto min-w-[300px] max-w-[400px] overflow-hidden flex flex-col shadow-sm '>
+                    <div className='flex-1 flex-grow  basis-[85%]' id="resultPosterId" >
+                      {/* <div className="aspect-[1/1] w-full max-w-[1080px]"> */}
+                      <ResultPoster result={selectedProgram} />
+                      {/* </div> */}
+                    </div>
+                    <div className='grid grid-cols-3 h-[20px] basis-[15%] border-t border-black overflow-hidden'>
+
+                      <div className='col-span-2 flex  items-center justify-center gap-3  relative'>
+                        <button className='flex  items-center justify-center gap-3' onClick={() => handleShare()}>
+                          <span ><Share2 /></span><p className='font-semibold'>Share Now</p>
+                        </button>
+                        <img src={PosterStar} alt='star' className='absolute left-3 -top-5 z-50 stroke-1 stroke-gray-200' />
+                        <img src={PosterStar} alt='star' className='absolute right-2 -bottom-6 z-50 stroke-1 stroke-gray-200' />
+
+                      </div>
+                      <div className='flex items-center justify-center border-l border-black relative py-2'>
+                        <span onClick={handleDownload} className='cursor-pointer'>
+                          <Download className='stroke-2' />
+                        </span>
+                        <img src={PosterStar} alt='star' className='absolute right-0 -top-6 z-50 stroke-1 stroke-gray-200' />
+                      </div>
+                    </div>
+                  </div>
+                </motion.div>
+              ) : (
+                <div>
+                  <p className='flex items-center justify-center mx-auto text-black font-medium'>No result to display</p>
+                </div>
+              )
             )
           )}
         </div>
@@ -326,7 +329,7 @@ function index() {
         ))}
       </div>
 
-    </motion.div>
+    </motion.div >
   )
 }
 

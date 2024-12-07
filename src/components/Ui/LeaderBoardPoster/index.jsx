@@ -13,7 +13,7 @@ import {
 import classNames from 'classnames';
 
 function index({ data }) {
-    console.log(data)
+    // console.log(data)
 
     function getResultNum(num) {
         if (!num) return '000';
