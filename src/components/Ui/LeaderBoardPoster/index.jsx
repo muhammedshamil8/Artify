@@ -14,7 +14,6 @@ import classNames from 'classnames';
 
 function index({ data }) {
     // console.log(data)
-
     function getResultNum(num) {
         if (!num) return '000';
         return num.toString().padStart(3, '0');
@@ -56,14 +55,14 @@ function index({ data }) {
                         <span className={classNames('rounded-full ml-1 p-1 font-bold w-[36px] h-[36px] flex items-center flex-col justify-center text-[12px] text-white bg-[#513B25]',
                         )}>
                             <span className='text-[8px] leading-0 h-2 font-medium'>After</span>
-                            {getResultNum(data?.result_no)}</span>
+                            {getResultNum(data?.result_count)}</span>
                     </div>
 
                     {/* result  card*/}
                     <div >
                         <div className='px-4 w-full mx-auto max-w-[320px] flex flex-col gap-0'>
                             {/* Result */}
-                            {data.map((item, index) => (
+                            {data?.data?.map((item, index) => (
                                 <div key={index} className={classNames('w-full',
                                 )}>
                                     <Card key={index} position={index + 1} data={item} />

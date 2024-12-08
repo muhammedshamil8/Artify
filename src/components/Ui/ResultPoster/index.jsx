@@ -24,7 +24,7 @@ import {
 import classNames from 'classnames';
 
 function index({ result }) {
-    // console.log(result.stageStatus);
+    // console.log(result);
     const [onStage, setOnStage] = useState(false);
     useEffect(() => {
         if (result.stageStatus === 'on_stage') {
@@ -125,25 +125,43 @@ function index({ result }) {
                                                     <span className="absolute font-bold text-xl text-white p-1">{item?.position}</span>
                                                 </div>
                                                 {/* Name and Details */}
-                                                <div className='flex flex-col flex-1 flex-grow'>
-                                                    {item.participants.map((item, index) => (
-                                                        <div className="flex flex-col" key={index}>
-                                                            <span className={classNames("font-bold text-lg leading-4 text-wrap whitespace-nowrap mt-1 capitalize  max-w-[240px]",
-                                                                onStage ? 'text-[#91F0FF]' : 'text-[#FFBF34]'
-                                                            )}>
-                                                                {item?.name}
-                                                            </span>
-                                                            <span className="text-xs capitalize text-white">{item?.department} {getYear(item?.year)}</span>
-                                                        </div>
-                                                    ))}
+                                                {result.is_group ? (
+                                                    <div className='flex flex-col flex-1 flex-grow'>
+                                                        {item.groups.map((item, index) => (
+                                                            <div className="flex flex-col" key={index}>
+                                                                <span className={classNames("font-bold text-lg leading-4 text-wrap whitespace-nowrap mt-1 capitalize  max-w-[240px]",
+                                                                    onStage ? 'text-[#91F0FF]' : 'text-[#FFBF34]'
+                                                                )}>
+                                                                    {item}
+                                                                </span>
+                                                                <span className="text-xs capitalize text-white">{item}</span>
+                                                            </div>
+                                                        ))}
 
-                                                    {/* <div className="flex flex-col">
+                                                    </div>
+                                                ) : (
+                                                    <div className='flex flex-col flex-1 flex-grow'>
+
+                                                        {item.participants.map((item, index) => (
+                                                            <div className="flex flex-col" key={index}>
+                                                                <span className={classNames("font-bold text-lg leading-4 text-wrap whitespace-nowrap mt-1 capitalize  max-w-[240px]",
+                                                                    onStage ? 'text-[#91F0FF]' : 'text-[#FFBF34]'
+                                                                )}>
+                                                                    {item?.name}
+                                                                </span>
+                                                                <span className="text-xs capitalize text-white">{item?.department} {getYear(item?.year)}</span>
+                                                            </div>
+                                                        ))}
+
+
+                                                        {/* <div className="flex flex-col">
                                             <span className="font-bold text-lg leading-4 mt-1 capitalize text-[#FFBF34]">
                                                 {item.name}
                                             </span>
                                             <span className="text-xs capitalize text-white">{item.name}</span>
                                         </div> */}
-                                                </div>
+                                                    </div>
+                                                )}
                                             </div>
                                         ))}
                                     </div>
@@ -208,7 +226,7 @@ function index({ result }) {
 
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 

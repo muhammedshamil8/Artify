@@ -3,6 +3,7 @@ import { GroupCard } from '@/assets/icons/elements/leaderboard';
 import { First, Second, Third, Fourth, Card } from '@/assets/images';
 
 function index({ position, data }) {
+    // console.log(data);
     const cardColors = [
         {
             position: 1,
@@ -39,26 +40,26 @@ function index({ position, data }) {
         return GroupCard;
     }
 
-        return (
+    return (
+        <div
+            className="relative w-full  mx-auto h-fit z-30 flex items-center justify-center rounded-3xl"
+        >
+            <img src={getCard(position)} alt="star" className="w-full max-w-[400px] " />
             <div
-                className="relative w-full  mx-auto h-fit z-30 flex items-center justify-center rounded-3xl"
+                className="absolute w-full flex items-center gap-6 justify-around px-6 font-bold text-2xl"
+                style={{ color: currentColor?.text }}
             >
-                <img src={getCard(position)} alt="star" className="w-full max-w-[400px] " />
-                <div
-                    className="absolute w-full flex items-center gap-6 justify-around px-6 font-bold text-2xl"
-                    style={{ color: currentColor?.text }}
-                >
-                    <h1 className="text-[50px] pl-[4px] prata-font w-[10%]" style={{ color: currentColor?.num }}>
-                        {position}
-                    </h1>
-                    <h1 className="flex-1  uppercase">{data.department}</h1>
-                    <h1 style={{ color: currentColor?.num }}>
-                        {data.total_score}
-                        <sub>pts</sub>
-                    </h1>
-                </div>
+                <h1 className="text-[50px] pl-[4px] prata-font w-[10%]" style={{ color: currentColor?.num }}>
+                    {position}
+                </h1>
+                <h1 className="flex-1  uppercase">{data.department}</h1>
+                <h1 className='text-[24px]' style={{ color: currentColor?.num }}>
+                    {data.total_score}
+                    <sub>pts</sub>
+                </h1>
             </div>
-        );
-    }
+        </div>
+    );
+}
 
-    export default index;
+export default index;

@@ -36,7 +36,7 @@ function index() {
         }
 
         const { data } = await response.json();
-
+        // console.log(data);
         // Format the response data
         const formattedData = data.map((program) => ({
           label: program.name,
@@ -126,7 +126,7 @@ function index() {
   const handleSelectProgram = async (program) => {
     setShowPoster(true);
     setLoadingPoster(true);
-    
+
     try {
       const response = await fetch(`${ApiUrl}/users/result/event/${program.value}`, {
         method: 'GET',
@@ -140,32 +140,43 @@ function index() {
       }
 
       const { data } = await response.json();
+      // console.log(data);
 
       const formattedData = data.map((program) => ({
         programName: program.name,
         id: program._id,
         result_no: program.serial_number,
         stageStatus: program.is_onstage ? 'on_stage' : 'off_stage',
+        is_group: program.winningRegistrations[0].eventRegistration.group_name ? true : false,
         winners: program.winningRegistrations.reduce((acc, winner) => {
           const existingPosition = acc.find((w) => w.position === winner.position);
-          if (existingPosition) {
-            // Add participants to the existing position group
-            existingPosition.participants.push(
-              ...winner.eventRegistration.participants.user.map((participant) => ({
-                name: participant.name,
-                department: participant.department,
-                year: participant.year_of_study,
-              }))
-            );
-          } else {
-            // Create a new group for this position
-            acc.push({
-              position: winner.position,
+
+          // Determine the display format for the winner (group or individuals)
+          const winnerDetails = winner.eventRegistration.group_name
+            ? { groupName: winner.eventRegistration.group_name } // Use group name if available
+            : {
               participants: winner.eventRegistration.participants.user.map((participant) => ({
                 name: participant.name,
                 department: participant.department,
                 year: participant.year_of_study,
               })),
+            };
+
+          if (existingPosition) {
+            // Add winner details to the existing position group
+            if (winnerDetails.groupName) {
+              existingPosition.groups = existingPosition.groups || [];
+              existingPosition.groups.push(winnerDetails.groupName);
+            } else {
+              existingPosition.participants.push(...winnerDetails.participants);
+            }
+          } else {
+            // Create a new group for this position
+            acc.push({
+              position: winner.position,
+              ...(winnerDetails.groupName
+                ? { groups: [winnerDetails.groupName] }
+                : { participants: winnerDetails.participants }),
             });
           }
           return acc;
@@ -173,6 +184,7 @@ function index() {
       }));
 
       setSelectedProgram(formattedData[0]);
+
       // console.log(formattedData[0]);
       // console.log(program)
       setLoadingPoster(false);

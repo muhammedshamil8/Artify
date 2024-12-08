@@ -11,6 +11,7 @@ function index({ position, data }) {
             shadow: '#E5A22440',
             textSize: 'text-4xl',
             fontSize: 'text-2xl',
+            scoreSize: 'text-[23px]',
         },
         {
             position: 2,
@@ -19,6 +20,7 @@ function index({ position, data }) {
             shadow: '#B7B5B54D',
             textSize: 'text-3xl',
             fontSize: 'text-xl',
+            scoreSize: 'text-[21px]',
         },
         {
             position: 3,
@@ -27,6 +29,7 @@ function index({ position, data }) {
             shadow: '#B96A1C40',
             textSize: 'text-2xl',
             fontSize: 'text-lg',
+            scoreSize: 'text-[19px]',
         },
         {
             position: 4,
@@ -35,6 +38,7 @@ function index({ position, data }) {
             shadow: '#12549440',
             textSize: 'text-2xl',
             fontSize: 'text-lg',
+            scoreSize: 'text-[19px]',
         },
     ];
     const currentColor = cardColors.find((color) => color.position === position);
@@ -53,18 +57,18 @@ function index({ position, data }) {
         >
             <img src={getCard(position)} alt="star" className="w-full max-w-[400px]" />
             <div
-                className={classNames("absolute -mt-1 w-full flex items-center justify-around px-6 font-bold text-2xl",
+                className={classNames("absolute -mt-1 w-full flex items-center gap-6 justify-around px-6 font-bold text-2xl",
                     currentColor?.text,
                 )}
             >
-                <h1 className={classNames('pl-[1px] mt-1 prata-font',
+                <h1 className={classNames(' pl-[4px] mt-1 prata-font w-[10%]',
                     currentColor?.textSize,
                     currentColor?.num,
                 )} >
                     {position}
                 </h1>
-                <h1 className={classNames("flex-1 pl-8 uppercase", currentColor.fontSize)}>{data.department}</h1>
-                <h1 className={classNames(currentColor.num)}>
+                <h1 className={classNames("flex-1 uppercase", currentColor.fontSize)}>{data.department}</h1>
+                <h1 className={classNames(currentColor.num,currentColor?.scoreSize)}>
                     {data.total_score}
                     <sub>pts</sub>
                 </h1>

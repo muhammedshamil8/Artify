@@ -45,15 +45,21 @@ function Index() {
           .sort((a, b) => b.total_score - a.total_score);
 
         // Format and sort categorized scores from departmentScores
+        // console.log(data.data)
         const categorizedData = Object.entries(data.data.departmentScores)
           .map(([department, total_score]) => ({
             department,
             total_score,
           }))
           .sort((a, b) => b.total_score - a.total_score);
-
+        const lastCount = data.data.lastCount;
+        const resultWithCount = {
+          data: categorizedData, // Sorted department scores
+          result_count: lastCount,       // Number of results published
+        };
+        // console.log(resultWithCount);
         setTopScorers(individualData);
-        setTeamData(categorizedData);
+        setTeamData(resultWithCount);
         setLoading(false);
       } catch (error) {
         console.error("Error fetching leaderboard data:", error);
@@ -101,7 +107,7 @@ function Index() {
               title: 'Artify Leaderboard',
               url: 'https://artify.connectemea.in',
               text: "Check out the Artify Leaderboard🎉",
-              files: [file], 
+              files: [file],
             });
             // console.log('Shared successfully!');
           } catch (err) {
@@ -149,7 +155,7 @@ function Index() {
           ))
         ) :
           (
-            teamData.map((item, index) => (
+            teamData.data.map((item, index) => (
               <motion.div
                 key={index}
                 initial={{ opacity: 0, y: 50 }}
