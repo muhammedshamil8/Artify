@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "motion/react"
 import { Skeleton } from '@/components/Ui/Skelton'
 import ResultPoster from '@/components/Ui/ResultPoster'
 import html2canvas from 'html2canvas';
+import ReactGA from "react-ga4";
 
 function index() {
   const { handleNavigate } = useNavigateHook();
@@ -19,12 +20,12 @@ function index() {
   const [loadingPoster, setLoadingPoster] = useState(true);
   const [selectedProgram, setSelectedProgram] = useState(null);
   const [showPoster, setShowPoster] = useState(false);
+  const [departments, setDepartments] = useState([]);
   const ApiUrl = import.meta.env.VITE_BASE_URL;
 
   useEffect(() => {
     setLoading(true);
     try {
-
       const fetchPrograms = async () => {
         const response = await fetch(`${ApiUrl}/users/events/resultPublished`, {
           method: 'GET',
@@ -36,30 +37,63 @@ function index() {
         }
 
         const { data } = await response.json();
-        // console.log(data);
+        console.log(data);
         // Format the response data
         const formattedData = data.map((program) => ({
           label: program.name,
           value: program._id,
+          date: program.last_updated,
+          isNew: isNewRelease(program.last_updated),
           // stage: program.event_type.is_onstage ? 'On Stage' : 'Off Stage',
         }));
 
         await handleSelectProgram(formattedData[0]);
         // console.log(formattedData);
-        setPrograms(formattedData);
+        const sortPrograms = formattedData.sort((a, b) => a.date > b.date ? -1 : 1);
+        setPrograms(sortPrograms);
         setLoading(false);
       }
 
       fetchPrograms();
+      fetchDepartments();
     } catch (error) {
       // console.log('Failed to fetch data');
       setLoading(false);
     }
   }, []);
 
+  const fetchDepartments = async () => {
+    try {
+      const response = await fetch(`${ApiUrl}/users/departments`, {
+        method: 'GET',
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to fetch department data');
+      }
+
+      const { data } = await response.json();
+      console.log(data);
+      setDepartments(data);
+    } catch (error) {
+      console.error('Failed to fetch department data', error);
+    }
+  };
+
+  const checkTheTeam = (department) => {
+    const team = departments.find((team) => team.department === department);
+    return team ? team.team : '';
+  };
+
+
+
   const handleDownload = () => {
     const poster = document.getElementById('resultPosterId');
-
+    ReactGA.event({
+      category: "Button",
+      action: "Click",
+      label: "Download result",
+    });
     html2canvas(poster).then((canvas) => {
       const imageUrl = canvas.toDataURL('image/png'); // Create image URL from canvas
       setImageUrl(imageUrl);
@@ -77,7 +111,11 @@ function index() {
 
   const handleShare = async () => {
     const poster = document.getElementById('resultPosterId');
-
+    ReactGA.event({
+      category: "Button",
+      action: "Click",
+      label: "Share now result",
+    });
     // Capture the content of the element as a canvas
     html2canvas(poster).then((canvas) => {
       // Convert the canvas to a Blob
@@ -152,8 +190,12 @@ function index() {
           const existingPosition = acc.find((w) => w.position === winner.position);
 
           // Determine the display format for the winner (group or individuals)
+          // console.log(winner.eventRegistration);
           const winnerDetails = winner.eventRegistration.group_name
-            ? { groupName: winner.eventRegistration.group_name } // Use group name if available
+            ? {
+              groupName: winner.eventRegistration.group_name,
+              departmentName: winner.eventRegistration.departmentGroup
+            }
             : {
               participants: winner.eventRegistration.participants.user.map((participant) => ({
                 name: participant.name,
@@ -166,7 +208,10 @@ function index() {
             // Add winner details to the existing position group
             if (winnerDetails.groupName) {
               existingPosition.groups = existingPosition.groups || [];
-              existingPosition.groups.push(winnerDetails.groupName);
+              existingPosition.groups.push({
+                name: winnerDetails.groupName,
+                team: winnerDetails.departmentName,
+              });
             } else {
               existingPosition.participants.push(...winnerDetails.participants);
             }
@@ -175,7 +220,12 @@ function index() {
             acc.push({
               position: winner.position,
               ...(winnerDetails.groupName
-                ? { groups: [winnerDetails.groupName] }
+                ? {
+                  groups: [{
+                    name: winnerDetails.groupName,
+                    team: winnerDetails.departmentName,
+                  }]
+                }
                 : { participants: winnerDetails.participants }),
             });
           }
@@ -192,6 +242,16 @@ function index() {
       console.error('Failed to select program', error);
       setLoadingPoster(false);
     }
+  };
+
+  const isNewRelease = (dateString) => {
+    const currentDate = new Date();
+    const programDate = new Date(dateString);
+
+    // Calculate the difference in hours
+    const timeDifference = Math.abs(currentDate - programDate) / (1000 * 60 * 60);
+
+    return timeDifference <= 30; // Returns true if within 24 hours
   };
 
 
@@ -264,7 +324,7 @@ function index() {
                     <div className='grid grid-cols-3 h-[20px] basis-[15%] border-t border-black overflow-hidden bg-white'>
 
                       <div className='col-span-2 flex  items-center justify-center gap-3  relative '>
-                        <button className='flex  items-center justify-center gap-3' onClick={() => handleShare()}>
+                        <button className='flex  items-center justify-center gap-3 hover:text-[#ff1493] transition-all ease-in-out duration-300' onClick={() => handleShare()}>
                           <span ><Share2 /></span><p className='font-semibold'>Share Now</p>
                         </button>
                         <img src={PosterStar} alt='star' className='absolute left-3 -top-5 z-50 stroke-1 stroke-gray-200' />
@@ -272,7 +332,7 @@ function index() {
 
                       </div>
                       <div className='flex items-center justify-center border-l border-black relative py-2'>
-                        <span onClick={handleDownload} className='cursor-pointer'>
+                        <span onClick={handleDownload} className='cursor-pointer hover:text-[#ff1493] transition-all ease-in-out duration-300'>
                           <Download className='stroke-2' />
                         </span>
                         <img src={PosterStar} alt='star' className='absolute right-0 -top-6 z-50 stroke-1 stroke-gray-200' />
@@ -311,14 +371,19 @@ function index() {
                   duration: 0.5,
                   ease: 'easeInOut'
                 }}
-
               >
                 <button
                   disabled={!search && program.value === selectedProgram?.id}
                   onClick={() => handleSelectProgram(program)}
-                  className='flex items-center justify-between gap-4 py-1.5 px-6 md:px-8 border border-[#2e2d2d] bg-white rounded-md w-fit cursor-pointer transition-all ease-in-out duration-300 hover:bg-gray-200 hover:-translate-y-2 hover:disabled:translate-y-0 hover:disabled:shadow-none hover:shadow-xl hover:z-10 disabled:bg-gray-200 disabled:cursor-not-allowed'>
+                  className='flex items-center justify-between gap-4 py-1.5 px-6 md:px-8 border border-[#2e2d2d] bg-white rounded-md w-fit cursor-pointer transition-all ease-in-out duration-300 hover:bg-gray-200 hover:-translate-y-2 hover:disabled:translate-y-0 hover:disabled:shadow-none hover:shadow-xl hover:z-10 disabled:bg-gray-200 disabled:cursor-not-allowed relative'>
                   <p className='font-semibold'>{program.label} </p>
+                  {program.isNew && (
+                    <span className="absolute -top-[15px] -right-[6px]  transform translate-x-1 translate-y-1 text-[9px] font-semibold text-white bg-[#FE346E] border-2 border-[#FF1A75] clip-path-star px-1 py-[1px] shadow-lg rounded-md rounded-bl-none">
+                      New
+                    </span>
+                  )}
                 </button>
+
               </motion.div>
             ))}
           </AnimatePresence>

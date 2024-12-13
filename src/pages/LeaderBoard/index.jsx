@@ -144,7 +144,7 @@ function Index() {
         </div>
       </div>
       <div className='flex items-end justify-end max-w-[350px] w-full mx-auto  my-2 z-10'>
-        <button disabled={loading} onClick={() => handleShare()} className='border border-black disabled:bg-gray-300 rounded-full text-xs leading-3 py-1.5 px-3 flex items-center justify-center gap-2 cursor-pointer'><Share2 size={15} fill='black' />Share Now</button>
+        <button disabled={loading} onClick={() => handleShare()} className='border border-black disabled:bg-gray-300 rounded-full text-xs leading-3 py-1.5 px-3 flex items-center justify-center gap-2 cursor-pointer hover:text-[#ff1493] hover:border-[#ff1493] shadow-md bg-white/80 transition-all ease-in-out duration-300'><Share2 size={15} fill='black' />Share Now</button>
         {/* <ShareNowButton /> */}
       </div>
 

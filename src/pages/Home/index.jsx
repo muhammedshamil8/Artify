@@ -9,7 +9,6 @@ import ResultCard from './components/ResultCard'
 import GroupCard from './components/GroupCard'
 import { motion } from "motion/react"
 
-
 function index() {
     const { handleNavigate } = useNavigateHook();
     const [card1, setCard1] = useState(null);
@@ -116,7 +115,7 @@ function index() {
                             <div key={i} className='flex items-center justify-center gap-3 text-white h-full mx-6'>
                                 <img src={Star} alt='star' className='h-6 w-6' />
                                 <img src={ArtifyLogo} alt='star' className='h-10 w-6' />
-                                <span className='whitespace-nowrap'>{`Welcome to Artify`}</span>
+                                <span className='whitespace-nowrap'>{`Artify`}</span>
                             </div>
                         ))}
                         {/* Duplicate content to ensure the seamless scroll */}
@@ -124,7 +123,7 @@ function index() {
                             <div key={i + 20} className='flex items-center justify-center gap-3 text-white h-full mx-6'>
                                 <img src={Star} alt='star' className='h-6 w-6' />
                                 <img src={ArtifyLogo} alt='star' className='h-10 w-6' />
-                                <span className='whitespace-nowrap'>{`Welcome to Artify`}</span>
+                                <span className='whitespace-nowrap'>{`Artify`}</span>
                             </div>
                         ))}
                     </div>

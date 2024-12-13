@@ -28,21 +28,21 @@ function index({ data }) {
                         <div className='marquee flex justify-start h-full gap-4'>
                             {[...Array(10)].map((_, i) => (
                                 <div key={i} className='flex items-center justify-center gap-3 text-white h-full mx-6'>
-                                    <span className='whitespace-nowrap'>{`Welcome to Artify`}</span>
+                                    <span className='whitespace-nowrap'>{`Artify`}</span>
                                     <img src={Star} alt='star' className='h-5 w-5' />
                                     <img src={ArtifyLogo} alt='star' className='h-[35px] w-5' />
                                 </div>
                             ))}
                             {[...Array(10)].map((_, i) => (
                                 <div key={i} className='flex items-center justify-center gap-3 text-white h-full mx-6'>
-                                    <span className='whitespace-nowrap'>{`Welcome to Artify`}</span>
+                                    <span className='whitespace-nowrap'>{`Artify`}</span>
                                     <img src={Star} alt='star' className='h-5 w-5' />
                                     <img src={ArtifyLogo} alt='star' className='h-[35px] w-5' />
                                 </div>
                             ))}
                             {[...Array(10)].map((_, i) => (
                                 <div key={i} className='flex items-center justify-center gap-3 text-white h-full mx-6'>
-                                    <span className='whitespace-nowrap'>{`Welcome to Artify`}</span>
+                                    <span className='whitespace-nowrap'>{`Artify`}</span>
                                     <img src={Star} alt='star' className='h-5 w-5' />
                                     <img src={ArtifyLogo} alt='star' className='h-[35px] w-5' />
                                 </div>

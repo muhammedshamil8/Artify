@@ -58,14 +58,14 @@ function index({ result }) {
                         <div className='marquee flex justify-start h-full gap-4'>
                             {[...Array(10)].map((_, i) => (
                                 <div key={i} className='flex items-center justify-center gap-3 text-white h-full mx-6'>
-                                    <span className='whitespace-nowrap text-sm'>{`Welcome to Artify`}</span>
+                                    <span className='whitespace-nowrap text-sm'>{`Artify`}</span>
                                     <img src={Star} alt='star' className='h-5 w-5' />
                                     <img src={ArtifyLogo} alt='star' className='h-[35px] w-5' />
                                 </div>
                             ))}
                             {[...Array(10)].map((_, i) => (
                                 <div key={i} className='flex items-center justify-center gap-3 text-white h-full mx-6'>
-                                    <span className='whitespace-nowrap text-sm'>{`Welcome to Artify`}</span>
+                                    <span className='whitespace-nowrap text-sm'>{`Artify`}</span>
                                     <img src={Star} alt='star' className='h-5 w-5' />
                                     <img src={ArtifyLogo} alt='star' className='h-[35px] w-5' />
                                 </div>
@@ -118,23 +118,23 @@ function index({ result }) {
                         </div> */}
                                     <div className="max-w-full w-fit mx-auto">
                                         {result?.winners && result?.winners.map((item, index) => (
-                                            <div className="flex items-start justify-start gap-5 mb-4 w-full" key={index}>
+                                            <div className="flex items-start justify-start gap-5 mb-4 w-fit " key={index}>
                                                 {/* Badge */}
-                                                <div className="relative flex items-center justify-center h-10 w-[20%]">
-                                                    <img src={badge} className="h-10" alt="badge" />
-                                                    <span className="absolute font-bold text-xl text-white p-1">{item?.position}</span>
+                                                <div className="relative flex items-center justify-center h-10 ">
+                                                    <img src={badge} className="h-[38px]" alt="badge" />
+                                                    <span className="absolute font-bold text-[17px] text-white mt-[1px] font-mono">{item?.position}</span>
                                                 </div>
                                                 {/* Name and Details */}
                                                 {result.is_group ? (
                                                     <div className='flex flex-col flex-1 flex-grow'>
                                                         {item.groups.map((item, index) => (
                                                             <div className="flex flex-col" key={index}>
-                                                                <span className={classNames("font-bold text-lg leading-4 whitespace-nowrap flex  mt-1 capitalize  max-w-[240px] flex-grow",
+                                                                <span className={classNames("font-bold text-[17px] leading-4 text-wrap whitespace-nowrap flex  mt-1 capitalize  max-w-[240px] flex-grow",
                                                                     onStage ? 'text-[#91F0FF]' : 'text-[#FFBF34]'
                                                                 )}>
-                                                                    {item}
+                                                                    {item.name}
                                                                 </span>
-                                                                {/* <span className="text-xs capitalize text-white">{item}</span> */}
+                                                                <span className="text-xs capitalize text-white">{item.team}</span>
                                                             </div>
                                                         ))}
 
@@ -144,12 +144,12 @@ function index({ result }) {
 
                                                         {item.participants.map((item, index) => (
                                                             <div className="flex flex-col" key={index}>
-                                                                <span className={classNames("font-bold text-lg leading-4  whitespace-nowrap mt-1 capitalize  max-w-[240px]",
+                                                                <span className={classNames("font-bold text-[16px] leading-4  whitespace-nowrap mt-1 capitalize  max-w-[240px]",
                                                                     onStage ? 'text-[#91F0FF]' : 'text-[#FFBF34]'
                                                                 )}>
                                                                     {item?.name}
                                                                 </span>
-                                                                <span className="text-xs capitalize text-white max-w-[200px]">{item?.department} {getYear(item?.year)}</span>
+                                                                <span className="text-[10px] capitalize text-white max-w-[200px] w-fit">{item?.department} {getYear(item?.year)}</span>
                                                             </div>
                                                         ))}
 
