@@ -54,7 +54,7 @@ function index({ position, data }) {
                 </h1>
                 <h1 className="flex-1  uppercase">{data.department}</h1>
                 <h1 className='text-[24px]' style={{ color: currentColor?.num }}>
-                    {data.total_score}
+                    {data.total_score || 0}
                     <sub>pts</sub>
                 </h1>
             </div>

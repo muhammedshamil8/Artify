@@ -174,9 +174,9 @@ function index() {
                             <section className='flex flex-col items-center justify-center gap-2 text-center w-full p-2  z-10' >
                                 <img src={ArtifyTxt} alt='Artify' className='h-28w-28 mx-auto' />
                                 <h2 className='text-xl font-normal'>Uniting Artists, Visionaries, and Dreamers</h2>
-                                <p className='text-sm px-2 max-w-[500px] leading-4 mt-4'><b>Artify</b> is where passion and talent collide, showcasing the diverse
-                                    expressions of art and innovation from our talented students. Immerse yourself in a world of colors, sounds, and ideas that inspire and uplift. Don’t miss out <b>Artify</b> is where passion and talent collide, showcasing the diverse expressions of art and innovation from our talented students. Immerse yourself in a world of colors, sounds, and ideas that inspire and uplift.
-                                    <b>Don’t miss out</b></p>
+                                <p className='text-sm px-2 max-w-[500px] leading-4 mt-4'>
+                                    <b>Artify</b> is where passion and talent collide, showcasing the diverse expressions of art and innovation from our talented students. Immerse yourself in a world of vibrant colors, melodious sounds, and groundbreaking ideas that inspire, uplift, and spark creativity. Don’t miss this extraordinary celebration of artistry and imagination!
+                                </p>
                             </section>
                         </motion.div>
                     </div>

@@ -129,12 +129,12 @@ function index({ result }) {
                                                     <div className='flex flex-col flex-1 flex-grow'>
                                                         {item.groups.map((item, index) => (
                                                             <div className="flex flex-col" key={index}>
-                                                                <span className={classNames("font-bold text-lg leading-4 text-wrap whitespace-nowrap mt-1 capitalize  max-w-[240px]",
+                                                                <span className={classNames("font-bold text-lg leading-4 whitespace-nowrap flex  mt-1 capitalize  max-w-[240px] flex-grow",
                                                                     onStage ? 'text-[#91F0FF]' : 'text-[#FFBF34]'
                                                                 )}>
                                                                     {item}
                                                                 </span>
-                                                                <span className="text-xs capitalize text-white">{item}</span>
+                                                                {/* <span className="text-xs capitalize text-white">{item}</span> */}
                                                             </div>
                                                         ))}
 
@@ -144,12 +144,12 @@ function index({ result }) {
 
                                                         {item.participants.map((item, index) => (
                                                             <div className="flex flex-col" key={index}>
-                                                                <span className={classNames("font-bold text-lg leading-4 text-wrap whitespace-nowrap mt-1 capitalize  max-w-[240px]",
+                                                                <span className={classNames("font-bold text-lg leading-4  whitespace-nowrap mt-1 capitalize  max-w-[240px]",
                                                                     onStage ? 'text-[#91F0FF]' : 'text-[#FFBF34]'
                                                                 )}>
                                                                     {item?.name}
                                                                 </span>
-                                                                <span className="text-xs capitalize text-white">{item?.department} {getYear(item?.year)}</span>
+                                                                <span className="text-xs capitalize text-white max-w-[200px]">{item?.department} {getYear(item?.year)}</span>
                                                             </div>
                                                         ))}
 

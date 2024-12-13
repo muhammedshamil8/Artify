@@ -255,15 +255,15 @@ function index() {
                   }}
 
                 >
-                  <div className='border rounded-lg border-black min-h-[360px] mx-auto min-w-[300px] max-w-[400px] overflow-hidden flex flex-col shadow-sm '>
+                  <div className='border rounded-lg border-black min-h-[360px] mx-auto min-w-[300px] max-w-[400px] overflow-hidden flex flex-col shadow-md '>
                     <div className='flex-1 flex-grow  basis-[85%]' id="resultPosterId" >
                       {/* <div className="aspect-[1/1] w-full max-w-[1080px]"> */}
                       <ResultPoster result={selectedProgram} />
                       {/* </div> */}
                     </div>
-                    <div className='grid grid-cols-3 h-[20px] basis-[15%] border-t border-black overflow-hidden'>
+                    <div className='grid grid-cols-3 h-[20px] basis-[15%] border-t border-black overflow-hidden bg-white'>
 
-                      <div className='col-span-2 flex  items-center justify-center gap-3  relative'>
+                      <div className='col-span-2 flex  items-center justify-center gap-3  relative '>
                         <button className='flex  items-center justify-center gap-3' onClick={() => handleShare()}>
                           <span ><Share2 /></span><p className='font-semibold'>Share Now</p>
                         </button>
@@ -291,7 +291,7 @@ function index() {
       </div>
 
 
-      <section className='z-20 flex flex-wrap w-full mx-auto gap-4 py-10 items-start justify-center px-2'>
+      <section className='z-20 flex flex-wrap w-full mx-auto gap-4 py-10 items-start justify-center px-2 max-w-[1200px]'>
         {loading ? (
           Array.from({ length: 7 }).map((_, index) => (
             <Skeleton className="h-10 w-40  px-8  bg-slate-300" key={index} />
